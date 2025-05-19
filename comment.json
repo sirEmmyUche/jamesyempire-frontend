@@ -1,0 +1,25 @@
+{
+    "comments":[
+        {
+            "name":"Uche Emmanuel",
+            "testimony":"Fast, speed and reliable, processing time is super amazing",
+            "image":"/images/logo.jpg",
+            "time":"24",
+            "amount":"300"
+        },
+        {
+            "name":"Manuel Villa",
+            "testimony":"Fast, speed and reliable, processing time is super amazing",
+            "image":"/images/logo.jpg",
+            "time":"24",
+            "amount":"300"
+        },
+        {
+            "name":"Collins Ugo",
+            "testimony":"Fast, speed and reliable, processing time is super amazing",
+            "image":"/images/logo.jpg",
+            "time":"24",
+            "amount":"300"
+        }
+    ]
+}
