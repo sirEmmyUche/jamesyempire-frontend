@@ -18,7 +18,10 @@ function Nav() {
         <div className={menubar?"nav-responsive-holder":"--hide"}>
             <ul className="nav-ul-container">
                 <li>
-                    <Link to={'/'}>Listings</Link>
+                    <Link to={'/'}>Home</Link>
+                </li>
+                <li>
+                    <Link to={'/listing'}>Listings</Link>
                 </li>
                 <li>
                     <Link to={'/'}>Blogs</Link>

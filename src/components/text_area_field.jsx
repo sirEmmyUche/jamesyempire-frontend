@@ -2,13 +2,13 @@
 import React from 'react';
 import { useFormContext } from 'react-hook-form';
 
-const InputField = ({ name, type = 'text', label, validationRules, placeholder, ...rest }) => {
-  const {register, formState: { errors } } = useFormContext(); // Access register and errors from context
+const TextArea = ({ name, type = 'text', label, validationRules, placeholder, ...rest }) => {
+  const { register, formState: { errors } } = useFormContext(); // Access register and errors from context
 
   return (
     <div className='main-input-holder'>
       {label && <label htmlFor={name}>{label}</label>}
-      <input
+      <textarea
         id={name}
         type={type}
         placeholder={placeholder}
@@ -20,4 +20,4 @@ const InputField = ({ name, type = 'text', label, validationRules, placeholder, 
   );
 };
 
-export default InputField;
+export default TextArea;

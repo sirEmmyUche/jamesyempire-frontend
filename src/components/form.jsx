@@ -1,7 +1,7 @@
 import React from 'react';
 import { useForm, FormProvider } from 'react-hook-form';
 
-const Form = ({ children, onSubmit, defaultValues, formProps}) => {
+const Form = ({ children, onSubmit, defaultValues, formProps,}) => {
   const methods = useForm({ defaultValues });
 
   const internalOnSubmit = (data) => {

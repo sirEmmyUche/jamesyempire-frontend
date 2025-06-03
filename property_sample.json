@@ -2,27 +2,30 @@
     "properties":[
         {   
             "id":1,
+            "property_id":"2678w8018",
             "title":"habert mc haurty maculle",
             "address":"court 12 lekki avaenue",
-            "description":"a 3 bedroom detached duplex",
+            "description":"3 bedroom detached duplex",
             "country":"Nigeria",
             "state":"lagos",
-            "image":"/images/logo.jpg",
+            "image":"https://images.pexels.com/photos/672532/pexels-photo-672532.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
             "status":"available",
             "available_for":"rent",
             "category":"house",
             "price":"350000",
             "property_features":{
                 "bedrooms": 3,
-                "bathrooms": 2
+                "bathrooms": 2,
+                "square":"150"
             }
         },
         {   
             "id":2,
+            "property_id":"2678w8029",
             "title":"gwagon",
             "country":"Nigeria",
             "address":"court 12 lekki avaenue",
-            "description":"a 3 bedroom detached duplex",
+            "description":"3 bedroom detached duplex",
             "state":"lagos",
             "image":"/images/logo.jpg",
             "status":"available",
@@ -37,30 +40,33 @@
         },
         {   
             "id":3,
+            "property_id":"2678w8085",
             "title":"habert",
             "country":"Nigeria",
             "address":"court 12 lekki avaenue",
-            "description":"a 3 bedroom detached duplex",
+            "description":"3 bedroom detached duplex",
             "state":"lagos",
-            "image":"/images/home-img.jpg",
+            "image":"https://images.pexels.com/photos/777059/pexels-photo-777059.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
             "status":"available",
             "available_for":"rent",
             "price":"350000",
             "category":"house",
             "property_features":{
                 "bedrooms": 3,
-                "bathrooms": 2
+                "bathrooms": 2,
+                "square":"150"
             }
         },
         {   
             "id":4,
+            "property_id":"2678w8096",
             "title":"sooty",
             "country":"Nigeria",
             "state":"lagos",
             "image":"/images/home-img.jpg",
             "status":"available",
             "address":"court 12 lekki avaenue",
-            "description":"a 3 bedroom detached duplex",
+            "description":"3 bedroom detached duplex",
             "available_for":"buy",
             "category":"car",
             "price":"350000",
@@ -72,38 +78,40 @@
         },
         {   
             "id":5,
+            "property_id":"2678w8127",
             "title":"flyspeed",
             "country":"Nigeria",
             "state":"lagos",
             "address":"court 12 lekki avaenue",
-            "description":"a 3 bedroom detached duplex",
+            "description":"3 bedroom detached duplex",
             "image":"/images/home-design-2-modified.png",
             "status":"available",
             "available_for":"buy",
             "category":"jet",
             "price":"35000000",
             "property_features":{
-                "make": "Ziti",
+                "capacity": "70",
                 "model": "488 GTB",
-                "year": 2020
+                "vessel": "private"
             } 
         },
         {   
             "id":6,
+            "property_id":"2678w8829",
             "title":"vinchi",
             "country":"Nigeria",
             "state":"lagos",
             "address":"court 12 lekki avaenue",
-            "description":"a 3 bedroom detached duplex",
+            "description":"3 bedroom detached duplex",
             "image":"/images/home-design-2-modified.png",
             "status":"available",
             "available_for":"book",
             "category":"boat",
             "price":"350000",
             "property_features":{
-                "make": "Ferrari",
-                "model": "488 GTB",
-                "year": 2020
+                "capacity": "25",
+                "vessel": "yacht",
+                "cabin": 8
             } 
         }
     ]

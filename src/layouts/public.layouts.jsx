@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { Outlet } from "react-router-dom";
 import Nav from '../components/Navbar'
 import Footer from "../components/Footer";
@@ -6,7 +7,9 @@ function PublicLayout() {
     return (
       <div>
         <Nav/>
-        <Outlet /> {/* This is where nested routes render */}
+        <Suspense>
+            <Outlet /> {/* This is where nested routes render */}
+        </Suspense>
         <Footer/>
       </div>
     );

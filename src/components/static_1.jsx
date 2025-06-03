@@ -1,9 +1,7 @@
-import CountUp from "./count_up"
 import { TiKey } from "react-icons/ti";
 import { MdPeopleOutline } from "react-icons/md";
 import { MdAttachMoney } from "react-icons/md";
 import { FcInspection } from "react-icons/fc";
-import Button from "./Button";
 import { Link } from "react-router-dom";
 
 const Static_1 = ()=>{
@@ -15,7 +13,7 @@ const Static_1 = ()=>{
                 <div className="static-1-first-child-btn-holder">
                     {/* <Button type="button" text={'Browse Properties'}/> */}
                     <p>
-                        <Link>Search Properties</Link>
+                        <Link to={'/listing'}>Search Properties</Link>
                     </p>
                 </div>
                 <div className="static-1-first-child-img-holder">
