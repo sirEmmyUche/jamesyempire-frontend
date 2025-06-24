@@ -1,9 +1,9 @@
 import { visitorRoutes } from "./public.routes";
-// import from other routes folder goes here
+import { userRoutes } from "./user.routes";
 
 export const routes = [
     visitorRoutes,
-    // userRoutes,
+    userRoutes,
     // adminRoutes,
     { path: '*', element: <div>404 Not Found</div> }, // for 404 page
   ];

@@ -11,8 +11,8 @@ const SubmitEmail = ()=>{
       };
 
     return(<div className="submit-email-container">
-        <h2>Are you a landlord?</h2>
-        <h3>Discover ways increase your home's value and get listed.</h3>
+        <h1>Are you a landlord?</h1>
+        <h3>Discover ways to increase your home's value and get listed.</h3>
         <div className="form-holder">
             <Form onSubmit={handleOnSubmit}>
                 <div className="input-holder">

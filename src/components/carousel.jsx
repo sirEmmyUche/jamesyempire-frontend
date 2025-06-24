@@ -53,7 +53,7 @@ const Carousel = ({ images }) => {
             // dots={true}
             rows={1}
              arrows={true}
-            slidesPerRow={3}
+            slidesPerRow={2}
             ref={sliderRef2} // Directly pass the ref object
             {...navSliderSettings}>
             {images.map((image, index) => (

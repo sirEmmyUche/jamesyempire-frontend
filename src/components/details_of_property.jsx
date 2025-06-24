@@ -18,13 +18,11 @@ import { FaLandmark } from "react-icons/fa";
 import { TbMeterSquare } from "react-icons/tb";
 import { CiCalendarDate } from "react-icons/ci";
 import { GiSteeringWheel } from "react-icons/gi";
-
-
+// import {useQuery,keepPreviousData} from '@tanstack/react-query'
 
 const DetailsOfProperty = ({data,isLoading})=>{
-    console.log(data)
+    // console.log(data)
     const iconSize = 15
-
       const categoryDetails = {
         house: (
           <div className="parent">
@@ -32,21 +30,21 @@ const DetailsOfProperty = ({data,isLoading})=>{
               <div className="icon-holder"><MdOutlineBedroomParent color="#ffffff" size={iconSize}/></div>
               <div className='content-holder'>
                     <h4>Bedrooms</h4>
-                    <p>{`${data[0].property_features.bedrooms}`}</p>
+                    <p>{`${data?.property_features.bedroom}`}</p>
               </div>
             </div>
             <div className="child --border">
               <div className="icon-holder"><MdOutlineBathtub color="#ffffff" size={iconSize}/></div>
               <div className='content-holder'>
                     <h4>Bathrooms</h4>
-                    <p>{`${data[0].property_features.bathrooms}`}</p>
+                    <p>{`${data?.property_features.bathroom}`}</p>
               </div>
             </div>
              <div className="child">
               <div className='icon-holder'><TbMeterSquare color="#ffffff" size={iconSize}/></div>
               <div className='content-holder'>
                     <h4>Square</h4>
-                    <p>{`${data[0].property_features.square}m`}</p>
+                    <p>{`${data?.property_features.square}m`}</p>
               </div>
             </div>
           </div>
@@ -57,21 +55,21 @@ const DetailsOfProperty = ({data,isLoading})=>{
               <div className='icon-holder'><IoCarSport color="#ffffff" size={iconSize}/></div>
               <div className='content-holder'>
                     <h4>Brand</h4>
-                    <p>{`${data[0].property_features.make}`}</p>
+                    <p>{`${data?.property_features.make}`}</p>
               </div>
             </div>
             <div className="child --border">
               <div className='icon-holder'><GiSteeringWheel color="#ffffff" size={iconSize}/></div>
               <div className='content-holder'>
                     <h4>Model</h4>
-                    <p>{`${data[0].property_features.model}`}</p>
+                    <p>{`${data?.property_features.model}`}</p>
               </div>
             </div>
              <div className="child">
               <div className='icon-holder'><CiCalendarDate color="#ffffff" size={iconSize}/></div>
               <div className='content-holder'>
                     <h4>Year</h4>
-                    <p>{`${data[0].property_features.year}`}</p>
+                    <p>{`${data?.property_features.year}`}</p>
               </div>
             </div>
           </div>
@@ -83,21 +81,21 @@ const DetailsOfProperty = ({data,isLoading})=>{
               <div className='icon-holder'><GiAirplaneDeparture color="#ffffff" size={iconSize}/></div>
               <div className='content-holder'>
                     <h4>Class</h4>
-                    <p>{`${data[0].property_features.vessel}`}</p>
+                    <p>{`${data?.property_features.vessel}`}</p>
               </div>
             </div>
             <div className="child --border">
               <div className='icon-holder'><GiAirplaneDeparture color="#ffffff" size={iconSize}/></div>
               <div className='content-holder'>
                     <h4>Model</h4>
-                    <p>{`${data[0].property_features.model}`}</p>
+                    <p>{`${data?.property_features.model}`}</p>
               </div>
             </div>
              <div className="child">
               <div className='icon-holder'><IoIosPeople color="#ffffff" size={iconSize}/></div>
               <div className='content-holder'>
                     <h4>Capacity</h4>
-                    <p>{`${data[0].property_features.capacity}`}</p>
+                    <p>{`${data?.property_features.capacity}`}</p>
               </div>
             </div>
           </div>
@@ -108,21 +106,21 @@ const DetailsOfProperty = ({data,isLoading})=>{
               <div className='icon-holder'><GiSpeedBoat color="#ffffff" size={iconSize}/></div>
               <div className='content-holder'>
                     <h4>Vessel</h4>
-                    <p>{`${data[0].property_features.vessel}`}</p>
+                    <p>{`${data?.property_features.vessel}`}</p>
               </div>
             </div>
             <div className="child --border">
               <div className='icon-holder'><IoIosPeople color="#ffffff" size={iconSize}/></div>
               <div className='content-holder'>
                     <h4>Capacity</h4>
-                    <p>{`${data[0].property_features.capacity}`}</p>
+                    <p>{`${data?.property_features.capacity}`}</p>
               </div>
             </div>
              <div className="child">
               <div className='icon-holder'><MdCabin color="#ffffff" size={iconSize}/></div>
               <div className='content-holder'>
                     <h4>Cabin</h4>
-                    <p>{`${data[0].property_features.cabin}`}</p>
+                    <p>{`${data?.property_features.cabin}`}</p>
               </div>
             </div>
           </div>
@@ -131,16 +129,20 @@ const DetailsOfProperty = ({data,isLoading})=>{
       };
 
     return(<div className='property-content'>
-        <h1 className='property-content-child-1'>About</h1>
-        <p className='property-content-child-2'>
-            {isLoading? <Skeleton count={3}/>: data[0].description}
+        <h1 className='property-content-child-1 title'>About</h1>
+        <p className='property-content-child-2 default-font-size'>
+            {isLoading? <Skeleton count={3}/>: data?.description}
+        </p>
+        <h1 className='property-content-child-1 subtitle'>Address</h1>
+        <p className='property-content-child-2 default-font-size'>
+            {isLoading? <Skeleton count={3}/>: data?.address}
         </p>
         <div className='property-content-child-3'>
             <div className='property-content-child-3-subchild'>
                 <div className='icon-holder'><FaLandmark color="#ffffff" size={iconSize}/></div>
                 <div className='content-holder'>
                     <h4>Property</h4>
-                    <p>{isLoading? <Skeleton count={1}/>: data[0].category}</p>
+                    <p>{isLoading? <Skeleton count={1}/>: data?.category}</p>
                 </div>
             </div>
             <div className='property-content-child-3-subchild --border'>
@@ -149,7 +151,7 @@ const DetailsOfProperty = ({data,isLoading})=>{
                 </div>
                 <div className='content-holder'>
                     <h4>Status</h4>
-                    <p>{isLoading? <Skeleton count={1}/>: data[0].status}</p>
+                    <p>{isLoading? <Skeleton count={1}/>: data?.status}</p>
                 </div>
             </div>
             <div className='property-content-child-3-subchild'>
@@ -159,7 +161,8 @@ const DetailsOfProperty = ({data,isLoading})=>{
                     <p className='price'>
                         {
                         isLoading? <Skeleton count={1}/>
-                        : `₦${parseFloat(data[0].price).toLocaleString('en-US', { minimumFractionDigits: 2 })}`
+                        : data?.price? `₦${parseFloat(data?.price).toLocaleString('en-US', { minimumFractionDigits: 2 })}`
+                        :null
                         }
                     </p>
                 </div>
@@ -170,14 +173,14 @@ const DetailsOfProperty = ({data,isLoading})=>{
                 <div className='icon-holder'><MdLocationPin color="#ff0000" size={iconSize}/></div>
                 <div className='content-holder'>
                     <h4>Location</h4>
-                    <p>{isLoading? <Skeleton count={1}/>: data[0].state}</p>
+                    <p>{isLoading? <Skeleton count={1}/>: data?.state}</p>
                 </div>
             </div>
             <div className='property-content-child-3-subchild --border'>
                 <div className='icon-holder'><RiCustomerService2Line color="#ffffff" size={iconSize}/></div>
                 <div className='content-holder'>
                     <h4>Service</h4>
-                    <p>{isLoading? <Skeleton count={1}/>: data[0].available_for}</p>
+                    <p>{isLoading? <Skeleton count={1}/>: data?.available_for}</p>
                 </div>
             </div>
             <div className='property-content-child-3-subchild'>
@@ -187,13 +190,14 @@ const DetailsOfProperty = ({data,isLoading})=>{
                     <p className='price'>
                         {
                         isLoading? <Skeleton count={1}/>
-                        : `₦${parseFloat(data[0].price).toLocaleString('en-US', { minimumFractionDigits: 2 })}`
+                        : data?.price? `₦${parseFloat(data?.price).toLocaleString('en-US', { minimumFractionDigits: 2 })}`
+                        :null
                         }
                     </p>
                 </div>
             </div>
         </div>
-        <div className='property-content-child-4'>{categoryDetails[data[0].category] || null}</div>
+        <div className='property-content-child-4'>{categoryDetails[data?.category] || null}</div>
     </div>)
 }
 

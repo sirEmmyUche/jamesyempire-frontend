@@ -15,7 +15,7 @@ import { MdCabin } from "react-icons/md";
 
 const Card = ({title,image,country,state,status,price, showAlldetails = false,
   availableFor, make, model, category,property_id,
-   bedrooms, bathrooms,address,description,capacity,cabin,vessel,year, square
+   bedroom, bathroom,address,description,capacity,cabin,vessel,year, square
 }) => {
 
   const categoryDetails = {
@@ -23,7 +23,7 @@ const Card = ({title,image,country,state,status,price, showAlldetails = false,
       <div className="icon-holder">
         <div className="child-icon-holder">
           <span><MdOutlineBedroomParent color="#7065f0" size={16}/></span>
-          <p>{`${bedrooms} beds`}</p>
+          <p>{`${bedroom} beds`}</p>
         </div>
          <div className="child-icon-holder">
           <span><TbMeterSquare color="#7065f0" size={16}/></span>
@@ -31,7 +31,7 @@ const Card = ({title,image,country,state,status,price, showAlldetails = false,
         </div>
         <div className="child-icon-holder">
           <span><MdOutlineBathtub color="#7065f0" size={16}/></span>
-          <p>{`${bathrooms} bathrooms`}</p>
+          <p>{`${bathroom} bathroom`}</p>
         </div>
       </div>
     ),
@@ -86,7 +86,7 @@ const Card = ({title,image,country,state,status,price, showAlldetails = false,
     ),
     // Add more categories as needed
   };
-
+ 
   return (
     // NB: address, property type and other details are to be added in the prop detail page
     <>
@@ -105,7 +105,11 @@ const Card = ({title,image,country,state,status,price, showAlldetails = false,
         <h4 className="ribbon-2">{availableFor}</h4>
       </div>
       <div className="card-second-child">
-        <h1>₦{parseFloat(price).toLocaleString('en-US', { minimumFractionDigits: 2 })}</h1>
+        <h1>
+          {
+            price ? `₦${parseFloat(price).toLocaleString('en-US', { minimumFractionDigits: 2 })}`:null
+          }
+          </h1>
         <h2>{title}</h2>
         <p>{`${country},${state}`}</p>
         {

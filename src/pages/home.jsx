@@ -12,8 +12,8 @@ function Home() {
         <section className="home-first-section">
           <div className="--holder">
               <div className="home-pg-desc">
-                  <h1>Buy, book or rent your property easily</h1>
-                  <p>A great platform foy buying, booking and renting properties</p>
+                  <h1 className="title">Buy, book or rent your property easily</h1>
+                  <p className="default-font">A great platform foy buying, booking and renting properties</p>
               </div>
               <div className="--home-com-wrap">
                   <Comments/>

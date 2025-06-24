@@ -1,9 +1,11 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import { user } from "../store/user";
 
 function Nav() {
     const [menubar, setMenubar] = useState(false);
     const toggleMenubar = ()=> setMenubar(!menubar);
+    const token = false
 
     return (
       <nav>
@@ -26,17 +28,26 @@ function Nav() {
                 <li>
                     <Link to={'/'}>Blogs</Link>
                 </li>
+                {
+                    token && (<li>
+                    <Link to={'/dashboard'}>Resources</Link>
+                </li>)
+                }
             </ul>
-            <div className="auth-container">
+            {
+                !token && (
+                <div className="auth-container">
                 <ul>
                     <li className="login">
-                        <Link to={'/'}>Login</Link>
+                        <Link to={'/login'}>Login</Link>
                     </li>
                     <li className="signup">
-                        <Link to={'/'}>Sign up</Link>
+                        <Link to={'/signup'}>Sign up</Link>
                     </li>
                 </ul>
             </div>
+                )
+            }
         </div>
         <div className={!menubar?"hamburger":"cross-hamburger"} onClick={toggleMenubar}>
             <span></span>

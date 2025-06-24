@@ -5,19 +5,50 @@ import TextArea from './text_area_field'
 import Button from '../components/Button'
 import SelectField from '../components/selectField'
 import ImageUploadField from './image_upload'
-import { useFormContext,useWatch } from 'react-hook-form';
+// import { useFormContext,useWatch } from 'react-hook-form';
 import { MdOutlineFileUpload } from "react-icons/md";
 import PropertyFeatures from './property_features'
 import FormChangeTracker from './property_form_tracker'
+import {useMutation,} from '@tanstack/react-query'
+import { uploadProperty,updateProperty} from '../APIs'
+import { showToast } from '../utils/toast'
+// import { useForm } from 'react-hook-form';
 
-const PropertyForm = ({ mode = 'create', propertyData = {} }) => {
-  const isLoading = false;
-// console.log('property data:', propertyData)
+const PropertyForm = ({ mode = 'create', propertyData = {},}) => {
+  // console.log('propertyData',propertyData)
+  // const {reset,} = useForm();
+
+  const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50X2lkIjoiMzNkNGZmMzItMDdiNS00OTljLThmYWUtZTczZjY5NGMyMjU0IiwiaWF0IjoxNzUwMTcyNzcyfQ.sRjh_En0j3S5itXgRFeZo4Xui_h7GDRomEYHY8DCeaA';
+
+  const mutation = useMutation({
+    mutationFn: mode === 'edit'? async (formData)=> updateProperty(token,formData)
+   : async (formData)=>{
+    // console.log(formData)
+    return uploadProperty(token,formData)
+   } ,
+  
+    onError: (error) =>{
+      showToast('Something went wrong','error')
+      console.log('mutation property form error:',error)
+    },
+    onSuccess:(data)=>{
+       console.log('mutation success data:', data)
+      if(data.success){
+        showToast(data.message,'success')
+      }else{
+        showToast(data.message,'error')
+      }
+    },
+  })
+  const isLoading = mutation.isPending;
+  
+  // console.log('property data:', propertyData)
   // Define defaultValues based on mode
-  const defaultValues = mode === 'edit' ? {
-    title: propertyData.title || '',
-    address: propertyData.address || '',
-    country: propertyData.country || '',
+
+const defaultValues = mode === 'edit' ? {
+    title: propertyData.title ,
+    address: propertyData.address ,
+    country: propertyData.country,
     state: propertyData.state || '',
     price: propertyData.price || '',
     status: propertyData.status || '',
@@ -25,33 +56,46 @@ const PropertyForm = ({ mode = 'create', propertyData = {} }) => {
     category: propertyData.category || '',
     description: propertyData.description || '',
     images: propertyData.images || [],
-    bathrooms:propertyData.property_features.bathrooms || '',
-    bedrooms:propertyData.property_features.bedrooms || '',
-    square:propertyData.property_features.square || '',
-    model:propertyData.property_features.model || '',
-    make:propertyData.property_features.make || '',
-    year:propertyData.property_features.year || '',
-    capacity:propertyData.property_features.capacity || '',
-    vessel:propertyData.property_features.vessel || '',
-    cabin:propertyData.property_features.cabin || '',
+    bathrooms:propertyData?.property_features?.bathroom || '',
+    bedrooms:propertyData?.property_features?.bedroom || '',
+    square:propertyData.property_features?.square || '',
+    model:propertyData.property_features?.model || '',
+    make:propertyData.property_features?.make || '',
+    year:propertyData.property_features?.year || '',
+    capacity:propertyData.property_features?.capacity || '',
+    vessel:propertyData.property_features?.vessel || '',
+    cabin:propertyData.property_features?.cabin || '',
   } : {};
 
+// useEffect(()=>{
+//   const isPropertyDetailsReady = async()=>{
+//      if(mode === 'edit' ) {
+//       console.log('form has changed')
+//       // reset();
+//      }
+//   }
+//   isPropertyDetailsReady()
+// },[propertyData,isDataLoading,])
+
   const handleOnSubmit = (data) => {
-        console.log('Submitted data:', data);
-        const formData = new FormData();
-    for (let key in data) {
-      if (key === 'images') {
-        if (Array.isArray(data.images)) {
-          data.images.forEach((file) => formData.append('images', file));
-        } else {
-          console.log('No images found or image is not an array');
+      const formData = new FormData();
+      for (let key in data) {
+        const value = data[key];
+        if (key === 'images') {
+          if (Array.isArray(value)) {
+            value.forEach((file) => {
+              if (file instanceof File) {
+                formData.append('images', file);
+              }
+            });
+          }
+        } else if (typeof value === 'object' && value !== null){
+          formData.append(key, JSON.stringify(value));
+        } else if (value !== undefined && value !== null){
+          formData.append(key, value);
         }
-      } else {
-        formData.append(key, data[key]);
       }
-    }
-    // pass the form data into the mutation method here
-    // mutation.mutate(formData)
+      mutation.mutate(formData)
   };
 
   const statusOption = [
@@ -69,11 +113,14 @@ const PropertyForm = ({ mode = 'create', propertyData = {} }) => {
     { value: 'jet', label: 'Jet' },
     { value: 'car', label: 'Car' },
   ];
-
+  const id = propertyData.property_id
   return (
     <section id="property-form">
-      <Form onSubmit={handleOnSubmit} defaultValues={defaultValues}>
-        {mode === 'edit' && (<div className='form-tracker-holder'><FormChangeTracker /></div>)}
+      <Form onSubmit={handleOnSubmit} defaultValues={async()=> defaultValues}>
+        {mode === 'edit' && (<div className='form-tracker-holder'>
+          <FormChangeTracker isLoading={isLoading} id={id} />
+          </div>)
+        }
         {mode === 'create' && (<div className='create-new-property'><h1>Upload New Property</h1></div>)}
      
         <div className="parent-input-holder">
@@ -82,7 +129,14 @@ const PropertyForm = ({ mode = 'create', propertyData = {} }) => {
               type="text"
               label="Title"
               name="title"
-              validationRules={mode === 'create' ? { required: 'Title is required' } : {}}
+              validationRules={mode === 'create' ? { 
+                required: 'Title is required' ,
+                pattern: {
+                    value: /^.{0,100}$/,
+                    message: 'title cannot exceed 50 characters',
+                  },
+              } 
+                : {}}
             />
           </div>
           <div className="child-input-holder">
@@ -160,8 +214,8 @@ const PropertyForm = ({ mode = 'create', propertyData = {} }) => {
                 ? {
                     required: 'Description is required',
                     pattern: {
-                      value: /^.{0,100}$/,
-                      message: 'Description cannot exceed 100 characters',
+                      value: /^.{0,300}$/,
+                      message: 'Description cannot exceed 150 characters',
                     },
                   }
                 : {}
@@ -192,136 +246,3 @@ const PropertyForm = ({ mode = 'create', propertyData = {} }) => {
 };
 
 export default PropertyForm;
-
-
-// const PropertyForm = ({mode='create'})=>{
-
-//     const isLoading = false
-
-//      const handleOnSubmit = (data) => {
-//         console.log("Submitted data:", data);
-//         const formData = new FormData();
-//         for(let key in data){
-//             if (key == 'images'){
-//                 if(Array.isArray(data.images)){
-//                     data.images.forEach(file=>formData.append('images',file))
-//                 }else{
-//                     console.log('No images found or image is not an array')
-//                 }
-//             }else{
-//                 formData.append(key,data[key]);
-//             }
-//         }
-//         // pass the form data into the mutation method here
-//         // mutation.mutate(formData)
-//       };
-
-//     const statusOption = [
-//         {value:'available',label:'available'},
-//         {value:'unavailable',label:'unavailable'},
-//     ]
-//     const availableForOption = [
-//         {value:'rent',label:'rent'},
-//         {value:'buy',label:'buy'},
-//         {value:'book',label:'book'},
-//     ]
-//      const categoryOptions = [
-//         { value: "boat", label: "Boat" },
-//     { value: "house", label: "House" },
-//     { value: "jet", label: "Jet",},
-//     { value: "car", label: "Car",}
-//     ]
-
-    
-//     return(<section id='property-form'>
-//         {/* <div></div> */}
-//         <Form onSubmit={handleOnSubmit}>
-//             <div className='parent-input-holder'>
-//                 <div className='child-input-holder'>
-//                     <InputField type='text' label={'title'} name={'title'}
-//                      validationRules={mode === 'create' ? { required: "required" } : {}}
-//                     />
-//                 </div>
-//                 <div className='child-input-holder'>
-//                     <InputField type='text' label={'address'} name={'address'}
-//                      validationRules={mode === 'create' ? { required: "required" } : {}}
-//                     />
-//                 </div>
-//             </div>
-//             <div className='parent-input-holder'>
-//                 <div className='child-input-holder'>
-//                      <InputField type='text' label={'country'} name={'country'}
-//                       validationRules={mode === 'create' ? { required: "required" } : {}}/>
-//                 </div>
-//                 <div className='child-input-holder'>
-//                     <InputField type='text' label={'city'} name={'state'}
-//                      validationRules={mode === 'create' ? { required: "required" } : {}}
-//                      />
-//                 </div>
-//             </div>
-
-//             <div className='parent-input-holder'>
-//                 <div className='child-input-holder'>
-//                      <InputField type='text' label={'price'} name={'price'}
-//                       validationRules={mode === 'create' ? { required: "required" } : {}}
-//                       />
-//                 </div>
-//                 <div className='child-input-holder'>
-//                     <SelectField options={statusOption}
-//                     name="status"
-//                     label="status"
-//                     validationRules={mode === 'create' ? { required: "required" } : {}}
-//                     />
-//                 </div>
-//             </div>
-           
-//             <div className='parent-input-holder'>
-//                 <div className='child-input-holder'>
-//                      <SelectField options={availableForOption}
-//                         name="available_for"
-//                         label="service"
-//                         validationRules={mode === 'create' ? { required: "required" } : {}}
-//                         />
-//                 </div>
-//                 <div className='child-input-holder'>
-//                     <SelectField options={categoryOptions}
-//                         name="category"
-//                         label="category"
-//                          validationRules={mode === 'create' ? { required: "required" } : {}}
-//                         />
-//                 </div>
-//             </div>
-//             <div className='parent-input-holder'>
-//                 <PropertyFeatures/>
-//             </div>
-//              <div className='parent-input-holder'>
-//                  <TextArea name={'description'} 
-//                     placeholder={'Describe details of property'}
-//                     validationRules={mode === 'create' ?{
-//                         required:"required",
-//                         pattern:{
-//                             value:/^.{0,100}$/,
-//                             message:'100 words exceeded'
-//                         }
-//                     }:{}}/>
-//             </div>
-//             <ImageUploadField
-//                         name="images"
-//                         // control={methods.control}
-//                         rules={mode === 'create' ?{ required: "Please upload at least one image" }:{}}
-//                     />
-
-//             {
-//                 mode === 'create'? ( <Button type='submit'  text={'Upload'} 
-//             iconLeft={<MdOutlineFileUpload />}
-//              isLoading={isLoading}/>) 
-//              : ( <FormChangeTracker/>)
-//             }
-           
-             
-//         </Form>
-//     </section>)
-// }
-
-// export default PropertyForm
-
