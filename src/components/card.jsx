@@ -15,7 +15,7 @@ import { MdCabin } from "react-icons/md";
 
 const Card = ({title,image,country,state,status,price, showAlldetails = false,
   availableFor, make, model, category,property_id,
-   bedroom, bathroom,address,description,capacity,cabin,vessel,year, square
+   bedroom=1, bathroom=1,address,description,capacity,cabin,vessel,year, square
 }) => {
 
   const categoryDetails = {
@@ -23,7 +23,7 @@ const Card = ({title,image,country,state,status,price, showAlldetails = false,
       <div className="icon-holder">
         <div className="child-icon-holder">
           <span><MdOutlineBedroomParent color="#7065f0" size={16}/></span>
-          <p>{`${bedroom} beds`}</p>
+          <p>{`${bedroom}`}</p>
         </div>
          <div className="child-icon-holder">
           <span><TbMeterSquare color="#7065f0" size={16}/></span>
@@ -31,7 +31,7 @@ const Card = ({title,image,country,state,status,price, showAlldetails = false,
         </div>
         <div className="child-icon-holder">
           <span><MdOutlineBathtub color="#7065f0" size={16}/></span>
-          <p>{`${bathroom} bathroom`}</p>
+          <p>{`${bathroom}`}</p>
         </div>
       </div>
     ),
@@ -97,7 +97,7 @@ const Card = ({title,image,country,state,status,price, showAlldetails = false,
       <div className="card">
       <div className="card-first-child">
         <div className="card-img-holder">
-          <Link to={`/property/${property_id}`}>
+          <Link to={`/property/${property_id}`} state={{image}} >
               <img src={image} alt={title}/>
           </Link>
         </div>

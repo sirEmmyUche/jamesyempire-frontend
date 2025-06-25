@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 function SignUp() {
     return (
       <div id='signup-page'>
-        {/* <h1>Login</h1> */}
+        <h1 className="--header">Create an account</h1>
         <div className='account-form-wrapper'>
              <AccountForm mode='signup'/>
         </div>

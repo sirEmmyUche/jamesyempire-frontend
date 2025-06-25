@@ -6,11 +6,11 @@ import { showToast } from "../utils/toast";
 import Card from './card'
 
 //This components renders card together with pagination
-
-const RenderResourceData = ({resourceAPIFn, mode='property'})=>{
+// Always pass the unique key to avoid unnecessary behaviour
+const RenderResourceData = ({resourceAPIFn, mode='property', uniqueKey='properties'})=>{
     const [page, setPage] = useState(0);
     const {data, error, isFetching, isPlaceholderData, isLoading } = useQuery({
-        queryKey: ['resources',page],
+        queryKey: [uniqueKey,page],
         queryFn: async () => resourceAPIFn({page}),
         placeholderData: keepPreviousData,
     });

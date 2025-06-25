@@ -14,8 +14,8 @@
             "category":"house",
             "price":"350000",
             "property_features":{
-                "bedrooms": 3,
-                "bathrooms": 2,
+                "bedroom": 3,
+                "bathroom": 2,
                 "square":"150"
             }
         },
@@ -52,8 +52,8 @@
             "price":"350000",
             "category":"house",
             "property_features":{
-                "bedrooms": 3,
-                "bathrooms": 2,
+                "bedroom": 3,
+                "bathroom": 2,
                 "square":"150"
             }
         },

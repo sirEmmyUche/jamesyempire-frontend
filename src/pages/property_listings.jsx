@@ -6,36 +6,38 @@ import Card from "../components/card"
 import {useQuery,keepPreviousData} from '@tanstack/react-query'
 import { getAllProperty } from "../APIs";
 import { showToast } from "../utils/toast";
+import RenderResourceData from "../components/render_resources_data";
 
 
 function Listing (){
-     const [page, setPage] = useState(0);
+//      const [page, setPage] = useState(0);
 
-   const { isPending, isError, data, error, isLoading,
-        isFetching, isPlaceholderData } = useQuery({
-        queryKey: ['properties', page],
-        queryFn:async()=> getAllProperty({page}),
-        placeholderData: keepPreviousData,
-        // use this if your data doesn't change frequently
-        cacheTime: 1800000, // Cache for 30 minutes (1800000 milliseconds)
-        refetchInterval: 600000, // Refetch every 10 minutes (600000 milliseconds)
-        // refetchOnMount: true,
-      });
+//    const { isPending, isError, data, error, isLoading,
+//         isFetching, isPlaceholderData } = useQuery({
+//         queryKey: ['properties', page],
+//         queryFn:async()=> getAllProperty({page}),
+//         placeholderData: keepPreviousData,
+//         // use this if your data doesn't change frequently
+//         cacheTime: 1800000, // Cache for 30 minutes (1800000 milliseconds)
+//         refetchInterval: 600000, // Refetch every 10 minutes (600000 milliseconds)
+//         // refetchOnMount: true,
+//       });
 
-    if(data && !data.success) {
-        console.log(data)
-        showToast(data.error.message,'error')
-    }
+//     if(data && !data.success) {
+//         console.log(data)
+//         showToast(data.error.message,'error')
+//     }
 
-    if(error){
-        console.error(error)
-        showToast('Unable to display properties at the moment, please try again later.','error')
-    }
+//     if(error){
+//         console.error(error)
+//         showToast('Unable to display properties at the moment, please try again later.','error')
+//     }
 
     return(<section id="listing">
         <div className="child-1">
             <div className="subchild-1">
                  <h1>Find Your Dream Home</h1>
+                 <h3>easy to find, easy to connect</h3>
             </div>
             <div className="subchild-2">
                 <Search/>
@@ -43,7 +45,8 @@ function Listing (){
         </div>
         {/* <Skeleton count={6}/> */}
         <div className="child-2">
-            {
+            <RenderResourceData mode="property" uniqueKey="properties" resourceAPIFn={getAllProperty}/>
+            {/* {
                 isLoading ? <UseCardSkeleton/> : 
                 <div className="card-holder">
                     {data?.properties?.map((item) => (
@@ -69,9 +72,8 @@ function Listing (){
                     square={item.property_features.square}
                     />
                 ))}
-                </div>
-                
-            }
+                </div> 
+            } */}
         </div>
     </section>)
 }

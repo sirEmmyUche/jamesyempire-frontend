@@ -18,8 +18,6 @@ const PropertyForm = ({ mode = 'create', propertyData = {},}) => {
   // console.log('propertyData',propertyData)
   // const {reset,} = useForm();
 
-  const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50X2lkIjoiMzNkNGZmMzItMDdiNS00OTljLThmYWUtZTczZjY5NGMyMjU0IiwiaWF0IjoxNzUwMTcyNzcyfQ.sRjh_En0j3S5itXgRFeZo4Xui_h7GDRomEYHY8DCeaA';
-
   const mutation = useMutation({
     mutationFn: mode === 'edit'? async (formData)=> updateProperty(token,formData)
    : async (formData)=>{

@@ -24,8 +24,8 @@ const HomePagePropertyListingSample = ()=>{
                     category={item.category}
                     make={item.property_features?.make}
                     model={item.property_features?.model}
-                    bedrooms={item.property_features?.bathrooms}
-                    bathrooms={item.property_features?.bedrooms}
+                    bedrooms={item.property_features?.bathroom}
+                    bathrooms={item.property_features?.bedroom}
                     capacity={item.property_features.capacity}
                     cabin={item.property_features.cabin}
                     vessel={item.property_features.vessel}

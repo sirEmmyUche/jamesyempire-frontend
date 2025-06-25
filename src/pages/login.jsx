@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 function Login() {
     return (
       <div id='login-page'>
-        {/* <h1>Login</h1> */}
+        <h1 className='--header'>Login</h1>
         <div className='account-form-wrapper'>
              <AccountForm mode='login'/>
         </div>

@@ -39,7 +39,7 @@ const Carousel = ({ images }) => {
         {...mainSliderSettings}
         className="slider"
       >
-        {images.map((image, index) => (
+        {images?.map((image, index) => (
           <div key={index} className="slider-main-item"> {/* Each image is now a direct child slide */}
             <img src={image} alt={`slide-${index}`} />
           </div>
@@ -49,14 +49,14 @@ const Carousel = ({ images }) => {
       <div  className="--slider-container-child-2">
         <Slider className="slider"
             asNavFor={nav1}
-            // autoplay={true}
+            autoplay={true}
             // dots={true}
             rows={1}
              arrows={true}
-            slidesPerRow={2}
+            slidesPerRow={1}
             ref={sliderRef2} // Directly pass the ref object
             {...navSliderSettings}>
-            {images.map((image, index) => (
+            {images?.map((image, index) => (
             <div key={index} className="thumb-slider-item"> {/* Each image is now a direct child slide */}
                 <img src={image} alt={`nav-thumb-${index}`}/>
             </div>

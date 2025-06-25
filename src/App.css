@@ -168,13 +168,19 @@ textarea{
   }
   
 /* sign up page */
-@scope(#signup-page){
+/* didn't use @scope becauue it's not yet supported in old browsers */
+#signup-page,#login-page{
   background: var(--shades-of-purple);
-  min-height: 100vh;
+  min-height:100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  .--header{
+    font-size: var(--subtitle);
+    color: var(--main-color--top-nav);
+    margin-bottom: 1rem;
+  }
   .input-field-wraper{
     margin: 1rem;
   }
@@ -184,12 +190,14 @@ textarea{
   border:1px solid var(--sec--shades-of-purple);
   font-size: var(--default-font-size);
   border-radius: 10px;
+  box-shadow: 2px 2px 2px 2px var(--sec--shades-of-purple);
   }
   input:focus{
     border: 1px solid var(--main-color-purple);
   }
   label{
     color: var(--main-color-purple);
+    font-weight: 600;
   }
   .btn-holder{
     margin: 1rem;
@@ -233,72 +241,7 @@ textarea{
   }
 }
 
-/* login page */
-@scope(#login-page){
-  background: var(--shades-of-purple);
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  .input-field-wraper{
-    margin: 1rem;
-  }
-  input{
-  width: 100%;
-  padding: 15px 5px;
-  border:1px solid var(--sec--shades-of-purple);
-  font-size: var(--default-font-size);
-  border-radius: 10px;
-  }
-  input:focus{
-    border: 1px solid var(--main-color-purple);
-  }
-  label{
-    color: var(--main-color-purple);
-  }
-  .btn-holder{
-    margin: 1rem;
-    button{
-      background: var(--primary-btn-color);
-      color: var(--main-color--white);
-      font-weight: 500;
-      padding: 10px;
-    }
-  }
-  .account-form-wrapper{
-    width: 50%;
-    background: var(--main-color--white);
-    @media (min-width:480px) and (max-width:768px){
-    width: 70%;
-    }
-    @media screen and (max-width:479px){
-      width: 100%;
-    }
-  }
-  .wrapper{
-    border: 1px solid transparent;
-    width: 50%;
-    margin-top: 1rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    p{
-      a{
-        color: var(--main-color--black);
-        font-weight: 500;
-      }
-    }
-    @media (min-width:480px) and (max-width:768px){
-    width: 70%;
-    }
-    @media screen and (max-width:479px){
-      width: 100%;
-    }
-  }
-}
-
-@scope(#upload-property-page){
+#upload-property-page{
   background: var(--shades-of-purple);
    input,select{
   width: 100%;
@@ -498,6 +441,13 @@ textarea{
     border: 1px solid transparent;
     margin: 1rem 0;
     background: var(--sec--shades-of-purple);
+    input,select{
+       border-radius: 10px;
+      box-shadow: 2px 2px 2px 2px var(--sec--shades-of-purple);
+    }
+    label{
+      font-weight: 600;
+    }
   }
 }
 
@@ -1222,7 +1172,7 @@ aside{
     justify-content: space-between;
     .static-2-child-2-sub-child-1{
       border: 1px solid transparent;
-      height: 10rem;
+      height: 10.5rem;
       width: 30%;
       padding:5px;
       background: color-mix(in srgb, var(--main-sec-purple) 80%, #d9d6f5 20%);
@@ -1250,7 +1200,7 @@ aside{
           color: var(--main-color--white);
           opacity: 0.5;
           font-size: var(--default-font-size);
-          margin-top: 3%;
+          margin-top: 1%;
         }
       }
     }
@@ -1477,6 +1427,7 @@ aside{
   width:25%;
   margin:15px;
   background: var(--main-color--white);
+  box-shadow: 1px 2px 3px 4px rgb(12, 12, 12, 0.2);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -1601,6 +1552,13 @@ aside{
         font-size: var(--title);
         color: var(--main-color--white);
         font-weight: 700;
+      }
+      h3{
+        text-align: center;
+        font-size: var(--subtitle);
+        color: var(--main-color--white);
+        font-weight: 500;
+        margin: 1rem 0;
       }
     }
     .subchild-2{
@@ -1778,6 +1736,7 @@ footer{
       width: 100%;
       .form-tracker{
         width: 100%;
+        border: 1px solid transparent;
         display: flex;
         justify-content: space-evenly;
         align-items: center;
@@ -1789,6 +1748,12 @@ footer{
           border: 1px solid transparent;
           width: 20%;
           /* margin-left: auto; */
+          /* @media (min-width:480px) and (max-width:768px){
+          width: 70%;
+          } */
+          @media screen and (max-width:479px){
+            width: 45%;
+          }
         }
       }
     }
