@@ -34,6 +34,14 @@ const SideNav =({isCollapsed})=>{
                     {!isCollapsed && <p>Upload</p>}
                 </Link>
             </li>
+            <li>
+                <Link to={'/dashboard/chat-list'}>
+                    <span className={`${isCollapsed?'expand':''}`}>
+                        <MdOutlineFileUpload color="#ffffff" size={20}/>
+                    </span>
+                    {!isCollapsed && <p>Chats</p>}
+                </Link>
+            </li>
         </ul>
         <div className={!menubar?"hamburger":"cross-hamburger"} onClick={toggleMenubar}>
             <span></span>

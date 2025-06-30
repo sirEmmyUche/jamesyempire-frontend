@@ -7,6 +7,7 @@ import MyProperties from '../components/my_properties';
 const Listing = lazy(()=>import('../pages/property_listings'))
 const PropertyForm = lazy(()=>import('../components/property_form'))
 const PropertyDetails = lazy(()=>import('../pages/property_details_page'))
+const ChatListPage = lazy(()=>import('../pages/chat_list'))
 
 
 export const userRoutes = {
@@ -17,5 +18,6 @@ export const userRoutes = {
       { path:'/dashboard/listing', element: <Listing/> },
       { path:'/dashboard/upload', element: <UploadProperty/> },
       { path: '/dashboard/property/:id', element: <PropertyDetails/>},
+      { path: '/dashboard/chat-list', element: <ChatListPage/>},
     ]
   };

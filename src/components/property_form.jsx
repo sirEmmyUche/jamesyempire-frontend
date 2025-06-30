@@ -12,11 +12,14 @@ import FormChangeTracker from './property_form_tracker'
 import {useMutation,} from '@tanstack/react-query'
 import { uploadProperty,updateProperty} from '../APIs'
 import { showToast } from '../utils/toast'
+import {user} from '../store/user'
 // import { useForm } from 'react-hook-form';
 
 const PropertyForm = ({ mode = 'create', propertyData = {},}) => {
   // console.log('propertyData',propertyData)
   // const {reset,} = useForm();
+  const isUser = user((state)=>state.user)
+  const token = isUser.token || ''
 
   const mutation = useMutation({
     mutationFn: mode === 'edit'? async (formData)=> updateProperty(token,formData)

@@ -5,15 +5,21 @@ import Form from './form'
 import { logIn, signUp } from '../APIs'
 import { showToast } from '../utils/toast'
 import { user } from '../store/user'
+import { useNavigate } from 'react-router-dom'
+import PhoneInput from 'react-phone-input-2'
+import 'react-phone-input-2/lib/style.css'
+
 const AccountForm = ({mode='signup'})=>{
     const updateUser = user((state) => state.updateUser);
+    const navigate = useNavigate();
+    // const from = location.state?.from  || '/' 
     const mutation = useMutation({
         mutationFn: mode == 'login'? async (formData)=>logIn(formData) : async (formData)=>signUp(formData),
         onSuccess:(data)=>{
              console.log('data from login:',data)
             if(data && !data.success){
                 if(data.error.details.fields){
-                    let errorMessage = data.error.details.fields.map((field)=>field.message)
+                    let errorMessage = data?.error?.details?.fields?.map((field)=>field.message)
                     errorMessage.forEach((message)=>showToast(message,'error'))
                 }else{
                     showToast(data.error.message,'error')
@@ -21,10 +27,10 @@ const AccountForm = ({mode='signup'})=>{
             }else if(data && data.success){
                 if(mode === 'login'){
                      showToast(data.message, 'success')
-                // updateUser(data.user);
+                    updateUser(data.user);
                 }else{
                       showToast(data.message, 'success')
-                      //navigate to login page
+                    navigate('/login', { replace: true });
                 }
             }
         },
@@ -45,19 +51,34 @@ const AccountForm = ({mode='signup'})=>{
                 mode == 'signup' && (
                     <div>
                         <div className='input-field-wraper'>
-                            <InputField  type='text' name={'firstName'} label={'First name'} placeholder={'Jon'}/>
+                            <InputField  type='text' name={'firstName'} 
+                            label={'First name'} placeholder={'Jon'}
+                            validationRules={{required:'required'}}
+                            />
                         </div>
                          <div className='input-field-wraper'>
-                            <InputField  type='text' name={'lastName'} label={'Last name'} placeholder={'Doe'}/>
+                            <InputField  type='text' name={'lastName'} label={'Last name'} 
+                            validationRules={{required:'required'}}
+                            placeholder={'Doe'}/>
+                        </div>
+                        <div className='input-field-wraper'>
+                            {/* <InputField  type='text' name={'lastName'} label={'Last name'} 
+                            validationRules={{required:'required'}}
+                            placeholder={'Doe'}/> */}
+                            <PhoneInput country={'NGN'} name={'phone'} label={'Phone'}/>
                         </div>
                     </div>
                 )
             }
             <div className='input-field-wraper'>
-                <InputField type='email' name={'email'} label={'Email'} placeholder={'example@mymail.com'}/>
+                <InputField type='email' name={'email'} label={'Email'}
+                validationRules={{required:'required'}}
+                 placeholder={'example@mymail.com'}/>
             </div>
             <div className='input-field-wraper'>
-                <InputField type='password' name={'password'} label={'Password'}/>
+                <InputField type='password' name={'password'} 
+                validationRules={{required:'required'}}
+                label={'Password'}/>
             </div>
             <div className='btn-holder'>
                 <Button type='submit' isLoading={isLoading} text={mode ==='login'?'login':'sign up'}/>

@@ -1,0 +1,50 @@
+{
+   "chats": [
+    {   
+        "id":"",
+        "chat_id":"6ehbg84hfe-beuhvunie-r6hgieb",
+        "chat_room_id":"ukj2479738-874989-nfjer9849",
+        "content":"",
+        "created_at":"date",
+        "sender_info":{
+            "sender_id":"utdbshdbhu-fbueijo",
+            "firstname":"Emmanuel",
+            "profile_pic":""
+        },
+        "recipient_info":{
+            "recipient_id":"",
+            "firstname":"Collins",
+            "profile_pic":""
+        },
+        "property_info":{
+            "title":"title of the property",
+            "price":"120000",
+            "image":"",
+            "available_for":"book"
+        }
+    },
+    {   
+        "id":"",
+        "chat_id":"6ehbg84hfe-beuhvunie-r6hgieb",
+        "chat_room_id":"ukj2479738-874989-nfjer9849",
+        "content":"",
+        "created_at":"date",
+        "sender_info":{
+            "sender_id":"utdbshdbhu-fbueijo",
+            "firstname":"Emmanuel",
+            "profile_pic":""
+        },
+        "recipient_info":{
+            "recipient_id":"",
+            "firstname":"Collins",
+            "profile_pic":""
+        },
+        "property_info":{
+            "title":"newly built",
+            "price":"18000000",
+            "image":"",
+            "available_for":"buy"
+        }
+    }
+   ]
+}

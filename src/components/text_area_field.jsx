@@ -3,7 +3,7 @@ import React from 'react';
 import { useFormContext } from 'react-hook-form';
 
 const TextArea = ({ name, type = 'text', label, validationRules, placeholder, ...rest }) => {
-  const { register, formState: { errors } } = useFormContext(); // Access register and errors from context
+  const { register, reset, formState: { errors } } = useFormContext(); // Access register and errors from context
 
   return (
     <div className='main-input-holder'>

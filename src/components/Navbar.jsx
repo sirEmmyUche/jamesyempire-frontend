@@ -5,7 +5,8 @@ import { user } from "../store/user";
 function Nav() {
     const [menubar, setMenubar] = useState(false);
     const toggleMenubar = ()=> setMenubar(!menubar);
-    const token = false
+    const isUser = user((state)=>state.user)
+    const token = isUser.token;
 
     return (
       <nav>
