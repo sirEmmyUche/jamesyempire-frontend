@@ -1,4 +1,6 @@
-const baseUrl = 'http://localhost:3000'
+export const baseUrl = 'http://localhost:3000'
+
+// export const websocketBaseURL = 'http://localhost:3000';
 
 // NB try catch was not use because tanstack query automatically does that.
 
@@ -28,6 +30,46 @@ export const logIn = async (formData)=>{
         const result = await data.json();
         // console.log('logIn', result);
         return result;
+}
+
+
+export const  getMyProperty = async (token,id)=>{
+    const res = await fetch(`${baseUrl}/v1/my-property?id=${id}`,{
+        method:'get',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`,
+        },
+        credentials:'include',
+    })
+    const data = await res.json();
+    return data
+}
+
+export const getMyChatRequest = async (token)=>{
+    const res = await fetch(`${baseUrl}/v1/chat-request`,{
+        method:'get',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`,
+        },
+        credentials:'include',
+    })
+    const data = await res.json();
+    return data
+}
+
+export const geChatRequestById = async (token, chatroomId)=>{
+    const res = await fetch(`${baseUrl}/v1/chat?chatroomId=${chatroomId}`,{
+        method:'get',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`,
+        },
+        credentials:'include',
+    })
+    const data = await res.json();
+    return data
 }
 
 

@@ -26,8 +26,8 @@ const AccountForm = ({mode='signup'})=>{
                 }
             }else if(data && data.success){
                 if(mode === 'login'){
+                     updateUser(data.user);
                      showToast(data.message, 'success')
-                    updateUser(data.user);
                 }else{
                       showToast(data.message, 'success')
                     navigate('/login', { replace: true });

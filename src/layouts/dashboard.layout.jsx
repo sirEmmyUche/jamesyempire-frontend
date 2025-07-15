@@ -4,6 +4,8 @@ import { Outlet } from "react-router-dom";
 import SideNav from '../components/side_nav'
 import Footer from "../components/Footer";
 import Fallback from "../components/fallback";
+import { FaLongArrowAltLeft } from "react-icons/fa";
+import { FaLongArrowAltRight } from "react-icons/fa";
 
 function DashboardLayout() {
     const [isCollapsed, setisCollapsed] = useState(false)
@@ -13,12 +15,18 @@ function DashboardLayout() {
     return (
       <div className={`dashboard-grid-layout ${isCollapsed?'collapsed':''}`}>
         <div className="dashboard-side-nav">
-            <button onClick={toggleSidebar}>Collapse</button>
+            <div onClick={toggleSidebar} className="collapse-side-nav">
+                {
+                  isCollapsed?<FaLongArrowAltRight color="#ffffff" size={20}/>
+                  
+                  :<FaLongArrowAltLeft color="#ffffff" size={20}/>
+                }
+            </div>
             <SideNav isCollapsed={isCollapsed}/>
         </div>
         <div className="dashboard-main">
             <Suspense fallback={<Fallback/>}>
-                <Outlet /> {/* This is where nested routes render */}
+                <Outlet />
             </Suspense>
         </div>
         <div className="dashboard-footer">

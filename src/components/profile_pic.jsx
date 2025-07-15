@@ -5,15 +5,16 @@ const ProfilePic = ({mode = 'default', useImgSrc, isLoading})=>{
     const isUser = user((state)=>state.user);
     const profilePic= isUser?.profile_pic;
     let imgSrc;
+    let profilePicPlaceholder = "/images/user-profile-pic-placeholder.png"
 
-    if(!profilePic && !useImgSrc) imgSrc = "/images/home-img.jpg"
+    if(!profilePic && !useImgSrc) imgSrc = profilePicPlaceholder
 
     if(profilePic == '' && mode == 'default'){
-        imgSrc = "/images/home-img.jpg"
+        imgSrc = profilePicPlaceholder
     }else if(profilePic && profilePic !== '' && mode == 'default'){
        imgSrc = profilePic
     }
-    if(mode !== 'default' && useImgSrc && useImgSrc == '' ){
+    if(mode !== 'default' && useImgSrc && useImgSrc !== '' ){
         imgSrc = useImgSrc
     }
     return(

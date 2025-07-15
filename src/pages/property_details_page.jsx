@@ -7,6 +7,8 @@ import PropertyForm from '../components/property_form'
 import {useQuery,keepPreviousData} from '@tanstack/react-query'
 import { showToast } from "../utils/toast";
 import {user} from '../store/user'
+import Chat from "../components/chat";
+import CommentOnProperty from "../components/property_comments";
 
 
 // fetch query property should happen here.
@@ -18,7 +20,7 @@ const PropertyDetails = ()=>{
      const location = useLocation();
      const property_id = params.id
      const initialImage = location?.state?.image || ''
-     console.log('initial-image',initialImage)
+    //  console.log('initial-image',initialImage)
      const { isPending, isError, data, error, isLoading,
         isFetching, isPlaceholderData } = useQuery({
         queryKey: ['propertyById',],
@@ -85,8 +87,21 @@ const PropertyDetails = ()=>{
                 <DetailsOfProperty data={data?.property} isLoading={isLoading}/>
             </div>
         </div>
+
+        {/* this section is to hold both comments and the live chat */}
         <div className="prop-details-child-2">
-            { !isLoading && userId == data?.property?.account_id &&
+            <div className="comment-wrapper">
+                <CommentOnProperty/>
+            </div>
+            <div className="chat-wrapper">
+                <Chat propertyData={data?.property}/>
+            </div>
+        </div>
+
+        <div className="prop-details-child-3">
+            { 
+            //!isLoading && 
+            userId == data?.property?.account_id &&
             <PropertyForm mode="edit" propertyData={data?.property}/>
             }
         </div>

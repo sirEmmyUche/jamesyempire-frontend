@@ -1,73 +1,45 @@
-// useWebSocket.js
-import { useState, useEffect, useRef } from 'react';
-import io, { Socket } from 'socket.io-client';
+
+import { useEffect, useRef, useCallback } from 'react';
+import io from 'socket.io-client';
 
 const useWebSocket = (url, options) => {
-    const socketRef = useRef(null);
-    const [connected, setConnected] = useState('');
+  // useRef holds the socket instance without causing re-renders.
+  const socketRef = useRef(null);
 
-    useEffect(() => {
-        socketRef.current = io(url, {
-            ...options,
-            // reconnectionAttempts: 3, // prevent infinite loop
-            // reconnectionDelay: 3000, // delay between attempts
-        });
+  // This effect handles the socket connection lifecycle.
+  useEffect(() => {
+    // Establish the connection.
+    socketRef.current = io(url, { ...options });
+    const socket = socketRef.current;
 
-        socketRef.current.on('connect', async () => {
-            setConnected('connected');
-        });
+    // Internal listeners for debugging.
+    socket.on('connect', () => console.log(`Socket connected: ${socket.id}`));
+    socket.on('disconnect', (reason) => console.log(`Socket disconnected: ${reason}`));
+    socket.on('connect_error', (err) => console.error('Socket connection error:', err.message));
 
-        socketRef.current.on('join-room', async () => {
-            socketRef.current.join('default-room')
-            setConnected('joined room');
-        });
-
-        socketRef.current.on('connect_error', (err) => {
-            console.error('Connection failed:', err?.message || err);
-             setConnected('connection error');
-
-            // Check for auth-related error
-            // const message = err?.message || '';
-            // if (message.includes('token') || message.includes('auth')) {
-            //     setConnected(message);
-            //     // socketRef.current.disconnect(); // prevent loop
-            // } else {
-            //     setConnected('connection error');
-            // }
-        });
-
-        socketRef.current.on('disconnect', () => {
-            setConnected('disconnected');
-        });
-
-        return () => {
-            if (socketRef.current) {
-                socketRef.current.disconnect();
-            }
-        };
-    }, [url, JSON.stringify(options)]);
-
-    const emit = async (event, data) => {
-        try{
-            if (socketRef.current) {
-                socketRef.current.emit(event, data);
-            }
-        }catch(error){
-            console.error('socket-emit-event-error',error)
-        }
+    // Cleanup function to disconnect when the component unmounts.
+    return () => {
+      socket.disconnect();
     };
+    // This effect only re-runs if the connection details change.
+  }, [url, JSON.stringify(options)]);
 
-    const on = async(event, callback) => {
-        try{
-             if (socketRef.current) {
-                 socketRef.current.on(event, callback);
-            }
-        }catch(error){
-            console.error('socket-on-event-error:',error)
-        }
-    };
+  // `useCallback` with an empty `[]` dependency array memorizes these functions,
+  // making them stable across re-renders. THIS IS THE KEY FIX.
+  const emit = useCallback((event, data) => {
+    socketRef.current?.emit(event, data);
+  }, []);
 
-    return {connected, emit, on };
+  const on = useCallback((event, callback) => {
+    socketRef.current?.on(event, callback);
+  }, []);
+
+  const off = useCallback((event, callback) => {
+    socketRef.current?.off(event, callback);
+  }, []);
+
+  return { emit, on, off };
 };
 
-export default useWebSocket;
+ export default useWebSocket; 
+
