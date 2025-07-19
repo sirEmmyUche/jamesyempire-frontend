@@ -11,18 +11,25 @@ const Carousel = ({ images }) => {
 
   // Settings for the main slider
   const mainSliderSettings = {
-    infinite: true,
-    slidesToShow: 1,
+     slidesToShow: 1,
     slidesToScroll: 1,
-    // No need for fade here if you want a standard slide
+    arrows: false,
+    fade: true,
+    autoplay: true,
+    autoplaySpeed: 3000,
+    infinite: true,
   };
 
   // Settings for the navigation slider
   const navSliderSettings = {
-    // slidesToShow: 2,
+
+     slidesToShow: images.length >= 3 ? 3 : images.length,
+    slidesToScroll: images.length,
     swipeToSlide: true,
     focusOnSelect: true,
-    infinite: true, // It's good practice to keep this consistent if the main one is infinite
+    // centerMode: true,
+    infinite: true,
+    arrows: true,
   };
 
   useEffect(() => {
@@ -41,7 +48,12 @@ const Carousel = ({ images }) => {
       >
         {images?.map((image, index) => (
           <div key={index} className="slider-main-item"> {/* Each image is now a direct child slide */}
-            <img src={image} alt={`slide-${index}`} />
+            <div className="isText">
+                 <div className="is-x">
+                   <img src={image} alt={`slide-${index}`} />
+                 </div>
+            </div>
+           
           </div>
         ))}
       </Slider>
@@ -49,16 +61,15 @@ const Carousel = ({ images }) => {
       <div  className="--slider-container-child-2">
         <Slider className="slider"
             asNavFor={nav1}
-            autoplay={true}
-            // dots={true}
-            rows={1}
-             arrows={true}
-            slidesPerRow={1}
             ref={sliderRef2} // Directly pass the ref object
             {...navSliderSettings}>
             {images?.map((image, index) => (
             <div key={index} className="thumb-slider-item"> {/* Each image is now a direct child slide */}
-                <img src={image} alt={`nav-thumb-${index}`}/>
+                 <div className="isText">
+                 <div className="is-x">
+                   <img src={image} alt={`nav-thumb-${index}`}/>
+                 </div>
+            </div>
             </div>
             ))}
         </Slider>

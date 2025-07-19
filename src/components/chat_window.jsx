@@ -5,7 +5,7 @@ import { useChatStore } from "../store/chat";
 import { formatTimestamp } from "../utils/time_formats";
 
 
-const ChatWindow = ({ hide=true, mode='user'})=>{
+const ChatWindow = ({ mode='user', data={}})=>{
     const isUser = user((state)=>state.user)
     const userId = isUser?.account_id;
     const chatRoomId = useChatStore((state) => state.chatRoomId);
@@ -14,7 +14,7 @@ const ChatWindow = ({ hide=true, mode='user'})=>{
     const endRef = useRef(null);
     const getChatroomDetails =  useChatStore((state) => state.selectedUser)
   
-    // console.log('window-chat-mes:', chatMessages);
+    // console.log('window-chat-mes:', data);
 
     useEffect(() => {
         endRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -25,9 +25,9 @@ const ChatWindow = ({ hide=true, mode='user'})=>{
             <div className="user-property-detail">
                 <div className="user-details">
                     <div className="profile-pic-wrapper">
-                        <ProfilePic useImgSrc={getChatroomDetails?.user_profile_img}/>
+                        <ProfilePic useImgSrc={mode==='user'? data?.agent_profile_img : getChatroomDetails?.user_profile_img}/>
                     </div>
-                    <span>{getChatroomDetails?.user_firstname}</span>
+                    <span>{mode==='user'? data?.posted_by : getChatroomDetails?.user_firstname}</span>
                 </div>
                 {
                      mode == 'agent' && getChatroomDetails && (

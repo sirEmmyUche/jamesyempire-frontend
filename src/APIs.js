@@ -1,7 +1,5 @@
 export const baseUrl = 'http://localhost:3000'
 
-// export const websocketBaseURL = 'http://localhost:3000';
-
 // NB try catch was not use because tanstack query automatically does that.
 
 export const signUp = async (formData)=>{
@@ -33,18 +31,21 @@ export const logIn = async (formData)=>{
 }
 
 
-export const  getMyProperty = async (token,id)=>{
-    const res = await fetch(`${baseUrl}/v1/my-property?id=${id}`,{
-        method:'get',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`,
-        },
-        credentials:'include',
-    })
-    const data = await res.json();
-    return data
+
+export const getMyProperty = async ({ token, id, page }) => {
+  const res = await fetch(
+    `${baseUrl}/v1/my-property?page=${page}&id=${id}`,
+    {
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`,
+      },
+      credentials: "include",
+    }
+  )
+  return res.json()
 }
+
 
 export const getMyChatRequest = async (token)=>{
     const res = await fetch(`${baseUrl}/v1/chat-request`,{
@@ -71,6 +72,33 @@ export const geChatRequestById = async (token, chatroomId)=>{
     const data = await res.json();
     return data
 }
+
+
+// APIs.js
+export const searchProperty = async (params = {}) => {
+
+    function cleanParams(params) {
+        return Object.fromEntries(
+        Object.entries(params).filter(([_, value]) => value !== undefined && value !== "")
+        )
+    }
+    const query = new URLSearchParams(cleanParams(params)).toString()
+
+    // const query = new URLSearchParams(params).toString()
+    const url = `${baseUrl}/v1/search-property?${query}`
+
+    const res = await fetch(url, {
+        method: "GET",
+        headers: {
+        "Content-Type": "application/json",
+        },
+        credentials: "include",
+    })
+
+    const data = await res.json()
+    return data
+}
+
 
 
 export const getAllProperty = async ({page})=>{

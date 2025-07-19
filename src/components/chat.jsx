@@ -9,6 +9,8 @@ import ChatMsgInput from './chat_msg_input';
 import { baseUrl } from '../APIs';
 import useWebSocket from '../hooks/use_socket';
 import { showToast } from '../utils/toast';
+import Button from './Button';
+import { Link } from 'react-router-dom';
 
 
 const Chat = ({propertyData={},isLoading})=>{
@@ -93,9 +95,15 @@ useEffect(() => {
                     {
                         !chatWithAgentBtn? (
                         <>
-                            <div onClick={createChatroom}>
-                                Chat with agent
+                          {
+                             isUser?.account_id !== agent_id &&
+                             <div onClick={createChatroom} className='chat-with-agent-btn'>
+                              <Button
+                              type='button'
+                              text={'Chat with agent'}/>
                             </div>
+                          }
+                            
                         </>) 
                         :
 
@@ -111,7 +119,8 @@ useEffect(() => {
                             </div>
                             <div className={toggleChatWindow?'chat-window': 'hide-chat-area'}>
                                 <div className='msg-display-form-wrapper'>
-                                    <ChatWindow/>
+                                    <ChatWindow mode='user'
+                                    data={propertyData}/>
                                     <ChatMsgInput emit={emitMessage}/>
                                 </div>
                             </div>
@@ -121,7 +130,13 @@ useEffect(() => {
                 </>
                 ) : (
                     <>
-                        <div>Login and live chat with agent</div>
+                        <div className='login-to-chat-wrapper'>
+                          <div className='login-to-chat-content'>
+                            <Link to={'/login'}>
+                                Login to chat.
+                          </Link>
+                          </div>
+                        </div>
                     </>
                 )
             }

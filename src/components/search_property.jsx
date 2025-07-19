@@ -4,44 +4,52 @@ import InputField from "./inputs"
 import SelectField from "./selectField"
 import Button from "./Button"
 import { IoSearchSharp } from "react-icons/io5";
-import {useQuery,keepPreviousData,useQueryClient } from '@tanstack/react-query'
+import { useIsFetching } from "@tanstack/react-query";
 
-const Search = ()=>{
-    const [propertyAvailableFor, setPropertyAvailableFor] = useState('buy')
-    const isLoading = false
+const Search = ({onSubmit,})=>{
+    const [available_for, setAvailable_for] = useState('')
+    const isLoading = useIsFetching({
+        queryKey: ['properties',],
+    }) > 0;
 
-    const handlepropertyAvailableFor = (args)=> {
-        setPropertyAvailableFor(args)
+    const handleAvailable_for = (args)=> {
+        setAvailable_for(args)
     }
 
     const handleOnSubmit = (data) => {
         // console.log("Submitted data:", data);
-        let formData = {...data, propertyAvailableFor}
-        console.log("Submitted data:", formData);
-        // pass the form data into the mutation method here
+        let formData = {...data, available_for}
+        // pass the form data into the query params here
+        onSubmit(formData) 
       };
 
     const options = [
         { value: "boat", label: "Boat" },
     { value: "house", label: "House" },
-    { value: "jet", label: "Jet",}
+    { value: "jet", label: "Jet",},
+    { value: "car", label: "Car",}
     ]
 
     return(<div className="search-property-holder">
         <ul>
             <li
-                className={propertyAvailableFor==='buy'?'--prop-selected':''}
-                onClick={()=>{handlepropertyAvailableFor('buy')}}>
+                className={available_for===''?'--prop-selected':''}
+                onClick={()=>{handleAvailable_for('')}}>
+                All
+            </li>
+            <li
+                className={available_for==='buy'?'--prop-selected':''}
+                onClick={()=>{handleAvailable_for('buy')}}>
                 Buy
             </li>
             <li 
-                className={propertyAvailableFor==='rent'?'--prop-selected':''}
-                onClick={()=>{handlepropertyAvailableFor('rent')}}>
+                className={available_for==='rent'?'--prop-selected':''}
+                onClick={()=>{handleAvailable_for('rent')}}>
                 Rent
             </li>
             <li 
-                className={propertyAvailableFor==='book'?'--prop-selected':''}
-                onClick={()=>{handlepropertyAvailableFor('book')}}>
+                className={available_for==='book'?'--prop-selected':''}
+                onClick={()=>{handleAvailable_for('book')}}>
                 Book
             </li>
         </ul>
@@ -53,7 +61,7 @@ const Search = ()=>{
                         type={"text"}
                         placeholder={'enter city'}
                         label={'Location'}
-                        name={'location'}/>
+                        name={'state'}/>
                     </div>
                     <div className="subchild">
                         <SelectField options={options}
@@ -62,14 +70,14 @@ const Search = ()=>{
                         // validationRules={{ required: "Please select a property type" }}
                         />
                     </div>
-                    <div className="subchild">
+                    {/* <div className="subchild">
                         <InputField
                         type={"number"}
                         min='1'
                         placeholder={'number of bedrooms'}
                         label={'Bedrooms'}
-                        name={'numberOfBedrooms'}/>
-                    </div>
+                        name={'property_features.bedroom'}/>
+                    </div> */}
                     <div className="btn-holder">
                         <Button type="submit"
                         iconRight={<IoSearchSharp size={20} color="#7065f0" />}

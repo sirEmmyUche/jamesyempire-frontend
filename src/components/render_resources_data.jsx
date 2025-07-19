@@ -7,11 +7,12 @@ import Card from './card'
 
 //This components renders card together with pagination
 // Always pass the unique key to avoid unnecessary behaviour
-const RenderResourceData = ({resourceAPIFn, mode='property', uniqueKey='properties'})=>{
+const RenderResourceData = ({resourceAPIFn,
+     mode='property', uniqueKey='properties',params={}})=>{
     const [page, setPage] = useState(0);
     const {data, error, isFetching, isPlaceholderData, isLoading } = useQuery({
-        queryKey: [uniqueKey,page],
-        queryFn: async () => resourceAPIFn({page}),
+        queryKey: [uniqueKey,page, params],
+        queryFn: async () => resourceAPIFn({page, ...params}),
         placeholderData: keepPreviousData,
     });
      if(isLoading){
@@ -23,8 +24,8 @@ const RenderResourceData = ({resourceAPIFn, mode='property', uniqueKey='properti
         showToast('Something went wrong','error')
     }
     if(data && !data?.success){
-        console.log('render resource query data:',data)
-        showToast(data?.error?.message,'error')
+        // console.log('render resource query data:',data)
+        showToast(data?.error?.message,'info')
     }
 
     const hasProperty = data?.success && data?.properties?.length > 0;
@@ -36,7 +37,7 @@ const RenderResourceData = ({resourceAPIFn, mode='property', uniqueKey='properti
             setPage((old) => old + 1);
         }
     }
-    return(<section>
+    return(<section className="render-resources">
         <div className="card-holder">
                     {data?.properties?.map((item) => (
                     <Card key={item.property_id} title={item.title} 
@@ -64,21 +65,28 @@ const RenderResourceData = ({resourceAPIFn, mode='property', uniqueKey='properti
                 </div>
 
         {hasProperty  && (
-                <div>
-                    <div>Current Page: {page + 1}</div>
+                <div className="pagination-holder">
                     <div className="btn-holder">
-                        <Button
-                        type="button"
+                        <div className="btn-box">
+                            <Button
+                            type="button"
                             onClick={handlePrevPage}
                             disabled={page === 0}
                             >
                             Previous
-                        </Button>{' '}
-                        <Button
-                            onClick={handleNextPage}
-                            disabled={isPlaceholderData || !data?.hasMore}>
+                            </Button>
+                        </div>
+                         <div className="page">
+                            <p>{page + 1}</p>
+                        </div>
+                         <div className="btn-box">
+                            <Button
+                                onClick={handleNextPage}
+                                disabled={isPlaceholderData || !data?.hasMore}>
                             Next
-                        </Button>
+                            </Button>
+                         </div>
+                        
                     </div>
                     <div className="fetch-pg">{isFetching ? <span> Loading...</span> : null}{' '}</div>
                 </div>

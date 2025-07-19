@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { user } from "../store/user";
+import ProfilePic from './profile_pic'
 
 function Nav() {
     const [menubar, setMenubar] = useState(false);
@@ -36,7 +37,7 @@ function Nav() {
                 }
             </ul>
             {
-                !token && (
+                !token ? (
                 <div className="auth-container">
                 <ul>
                     <li className="login">
@@ -47,6 +48,14 @@ function Nav() {
                     </li>
                 </ul>
             </div>
+                ) :
+                (
+                    <div className="nav-profile-pic-container">
+                        <span>{isUser?.firstName}</span>
+                        <div className="nav-profile-pic-wrapper">
+                            <ProfilePic/>
+                        </div>
+                    </div>
                 )
             }
         </div>
