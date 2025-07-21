@@ -90,9 +90,6 @@ const Card = ({title,image,country,state,status,price, showAlldetails = false,
   return (
     // NB: address, property type and other details are to be added in the prop detail page
     <>
-      {
-        // isLoading?():()
-      }
 
       <div className="card">
       <div className="card-first-child">

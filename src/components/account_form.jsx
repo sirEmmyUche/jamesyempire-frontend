@@ -16,7 +16,7 @@ const AccountForm = ({mode='signup'})=>{
     const mutation = useMutation({
         mutationFn: mode == 'login'? async (formData)=>logIn(formData) : async (formData)=>signUp(formData),
         onSuccess:(data)=>{
-             console.log('data from login:',data)
+            //  console.log('data from login:',data)
             if(data && !data.success){
                 if(data.error.details.fields){
                     let errorMessage = data?.error?.details?.fields?.map((field)=>field.message)
@@ -60,12 +60,6 @@ const AccountForm = ({mode='signup'})=>{
                             <InputField  type='text' name={'lastName'} label={'Last name'} 
                             validationRules={{required:'required'}}
                             placeholder={'Doe'}/>
-                        </div>
-                        <div className='input-field-wraper'>
-                            {/* <InputField  type='text' name={'lastName'} label={'Last name'} 
-                            validationRules={{required:'required'}}
-                            placeholder={'Doe'}/> */}
-                            <PhoneInput country={'NGN'} name={'phone'} label={'Phone'}/>
                         </div>
                     </div>
                 )

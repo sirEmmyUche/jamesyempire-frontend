@@ -6,7 +6,7 @@ import {useMutation,} from '@tanstack/react-query'
 import { uploadProperty,updateProperty} from '../APIs'
 import { showToast } from '../utils/toast'
 
-const FormChangeTracker = ({action, isLoading, id}) => {
+const FormChangeTracker = ({action, id}) => {
    const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50X2lkIjoiMzNkNGZmMzItMDdiNS00OTljLThmYWUtZTczZjY5NGMyMjU0IiwiaWF0IjoxNzUwMTcyNzcyfQ.sRjh_En0j3S5itXgRFeZo4Xui_h7GDRomEYHY8DCeaA';
   const {formState:{ dirtyFields, isDirty },watch, } = useFormContext();
   const watchedValues = watch();
@@ -36,6 +36,8 @@ const FormChangeTracker = ({action, isLoading, id}) => {
       }
     },
   })
+
+  const isLoading = mutation.isPending
    
   // useEffect(() => {
   //   console.log("Dirty fields:", dirtyFields);

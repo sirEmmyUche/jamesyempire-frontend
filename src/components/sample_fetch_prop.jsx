@@ -1,9 +1,35 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import data from '../../property_sample.json'
+// import data from '../../property_sample.json'
 import Card from './card'
+import UseCardSkeleton from './use_card_skeleton'
+import { useQuery, keepPreviousData } from "@tanstack/react-query";
+import { getAllProperty } from '../APIs';
+import { showToast } from '../utils/toast';
 
 const HomePagePropertyListingSample = ()=>{
-    //ideally, your fetch logic is supposed to be here
+    const [page, setPage] = useState(0); 
+     const {data, error, isFetching, isPlaceholderData, isLoading } = useQuery({
+        queryKey: ['homepageProperties'],
+        queryFn: async () => getAllProperty({page}),
+        placeholderData: keepPreviousData,
+    });
+     if(isLoading){
+        return <UseCardSkeleton/>
+    }
+
+    if(error){
+        console.error('render resource query error:',error)
+        showToast('Something went wrong','error')
+    }
+    if(data && !data?.success){
+        // console.log('render resource query data:',data)
+        showToast(data?.error?.message,'info')
+    }
+
+    const hasProperty = data?.success && data?.properties?.length > 0;
+
+  
 
     return (
         <div className='homepage-sample-listing-main-container'>
@@ -11,7 +37,7 @@ const HomePagePropertyListingSample = ()=>{
             <h2 className='sub-header'>Some of our picked properties for you.</h2>
             <div className="card-map-container">
                 {data?.properties?.map((item) => (
-                    <Card key={item.id} title={item.title} 
+                    <Card key={item.property_id} title={item.title} 
                     image={item.image}
                     country={item.country}
                     property_id={item.property_id} 
