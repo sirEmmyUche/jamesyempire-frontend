@@ -5,9 +5,11 @@ import { MdOutlineFileUpload } from "react-icons/md";
 import {useMutation,} from '@tanstack/react-query'
 import { uploadProperty,updateProperty} from '../APIs'
 import { showToast } from '../utils/toast'
+import { user } from "../store/user";
 
 const FormChangeTracker = ({action, id}) => {
-   const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50X2lkIjoiMzNkNGZmMzItMDdiNS00OTljLThmYWUtZTczZjY5NGMyMjU0IiwiaWF0IjoxNzUwMTcyNzcyfQ.sRjh_En0j3S5itXgRFeZo4Xui_h7GDRomEYHY8DCeaA';
+  const isUser = user((state)=>state.user)
+   const token =  isUser.token  //'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50X2lkIjoiMzNkNGZmMzItMDdiNS00OTljLThmYWUtZTczZjY5NGMyMjU0IiwiaWF0IjoxNzUwMTcyNzcyfQ.sRjh_En0j3S5itXgRFeZo4Xui_h7GDRomEYHY8DCeaA';
   const {formState:{ dirtyFields, isDirty },watch, } = useFormContext();
   const watchedValues = watch();
   const modifiedFieldValues = Object.keys(dirtyFields).reduce((obj,key)=>{
@@ -32,7 +34,7 @@ const FormChangeTracker = ({action, id}) => {
       if(data.success){
         showToast(data.message,'success')
       }else{
-        showToast(data.message,'error')
+        showToast(data?.error?.message,'error')
       }
     },
   })
@@ -72,9 +74,12 @@ const FormChangeTracker = ({action, id}) => {
               }
             });
           }
-        } else if (typeof value === 'object' && value !== null){
+        }  else if (typeof value === 'object' && value !== null){
           formData.append(key, JSON.stringify(value));
-        } else if (value !== undefined && value !== null){
+        }else{
+          console.warn('property_features is not an object:', value)
+        }
+        if (value !== undefined && value !== null){
           formData.append(key, value);
         }
       }

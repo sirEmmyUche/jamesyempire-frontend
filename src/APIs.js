@@ -1,4 +1,5 @@
-export const baseUrl = 'http://localhost:3000'
+// export const baseUrl = 'http://localhost:3000'
+export const baseUrl = 'https://jamesyempire-backend.onrender.com'
 
 // NB try catch was not use because tanstack query automatically does that.
 
