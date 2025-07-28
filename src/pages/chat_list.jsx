@@ -29,13 +29,20 @@ const ChatListPage = ()=>{
       }
     };
 
-    const handleYouJoined = ({ joinedMsgPayLoad }) => {
-      if (joinedMsgPayLoad?.room_id) {
-        // console.log('you-joined')
-        useChatStore.getState().addChats(joinedMsgPayLoad.room_id, joinedMsgPayLoad);
-        useChatStore.getState().setChatRoomId(joinedMsgPayLoad.room_id);
+    const handleUserLeft = ({userLeftPayload}) => {
+      if (userJoinedPayload?.room_id) {
+        useChatStore.getState().addChats(userLeftPayload.room_id, userLeftPayload);
+        // useChatStore.getState().setChatRoomId(userJoinedPayload.room_id);
       }
     };
+
+    // const handleYouJoined = ({ joinedMsgPayLoad }) => {
+    //   if (joinedMsgPayLoad?.room_id) {
+    //     // console.log('you-joined')
+    //     useChatStore.getState().addChats(joinedMsgPayLoad.room_id, joinedMsgPayLoad);
+    //     useChatStore.getState().setChatRoomId(joinedMsgPayLoad.room_id);
+    //   }
+    // };
 
     const handleError = ({ message }) => {
       console.error('websocket error:', message);
@@ -43,12 +50,14 @@ const ChatListPage = ()=>{
     };
 
     on('chat-message', handleChatMessage);
-    on('you-joined', handleYouJoined);
+    on('user-left', handleUserLeft);
+    // on('you-joined', handleYouJoined);
     on('error', handleError);
 
     return () => {
       off('chat-message', handleChatMessage);
-      off('you-joined', handleYouJoined);
+      off('user-left', handleUserLeft);
+      // off('you-joined', handleYouJoined);
       off('error', handleError);
     };
   }, [on, off,]);

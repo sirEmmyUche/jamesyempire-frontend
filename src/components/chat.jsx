@@ -44,25 +44,46 @@ useEffect(() => {
 
     const handleUserJoined = ({ userJoinedPayload }) => {
       if (userJoinedPayload?.room_id) {
-        useChatStore.getState().addChats(userJoinedPayload.room_id, joinedMsgPayLoad);
-        useChatStore.getState().setChatRoomId(userJoinedPayload.room_id);
+        useChatStore.getState().addChats(userJoinedPayload.room_id, userJoinedPayload);
+        // useChatStore.getState().setChatRoomId(userJoinedPayload.room_id);
       }
     };
 
+    const handleUserLeft = ({userLeftPayload}) => {
+      if (userJoinedPayload?.room_id) {
+        useChatStore.getState().addChats(userLeftPayload.room_id, userLeftPayload);
+        // useChatStore.getState().setChatRoomId(userJoinedPayload.room_id);
+      }
+    };
+
+    const handleWaitingForAgent = ({waitingForAgent})=>{
+       useChatStore.getState().addChats(waitingForAgent.room_id, waitingForAgent);
+    }
+
+    const handleAgentNotificationStatus = ({agentNotifyStatusPayload})=>{
+      useChatStore.getState().addChats(agentNotifyStatusPayload.room_id, agentNotifyStatusPayload);
+    }
+
     const handleError = ({ message }) => {
-      console.error('websocket error:', message);
-      //  showToast(`${message}`, 'error') 
+      // console.error('websocket error:', message);
+       showToast(`${message}`, 'error') 
     };
 
     on('chat-message', handleChatMessage);
     on('user-joined',  handleUserJoined);
+    on('user-left', handleUserLeft);
     on('you-joined', handleYouJoined);
+    on('waiting-for-agent', handleWaitingForAgent);
+    on('agent-notification-status',handleAgentNotificationStatus)
     on('error', handleError);
 
     return () => {
       off('chat-message', handleChatMessage);
       off('you-joined', handleYouJoined);
       off('user-joined',  handleUserJoined);
+      off('user-left', handleUserLeft)
+      off('waiting-for-agent', handleWaitingForAgent);
+      off('agent-notification-status',handleAgentNotificationStatus)
       off('error', handleError);
     };
     // The dependency array is now stable. This effect runs only once on mount.

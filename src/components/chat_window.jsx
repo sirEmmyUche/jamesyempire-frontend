@@ -65,24 +65,22 @@ const ChatWindow = ({ mode='user', data={}})=>{
                                         <div className="servers-socket-broadcastmsg">
                                             <p className="announcement">{typeof message === 'string' ? message : message?.message}</p>
                                             <p className="announcement">{
-                                                `${new Date(message?.timestamp).toLocaleDateString()} ${ new Date(message?.timestamp).toLocaleTimeString()}`
+                                                // `${new Date(message?.timestamp).toLocaleDateString()} ${ new Date(message?.timestamp).toLocaleTimeString()}`
+                                                message?.timestamp? formatTimestamp(message?.timestamp): null
                                                 }
                                             </p>
                                         </div>
-                                    ): (
+                                    ):(
                                         <div>
                                             {
                                                 userId == message?.sender?.user_id ? (
                                                     <div className="sender-chat-wrapper">
                                                         <p className="msg-content">{typeof message === 'string' ? message : message?.message}</p>
                                                         <p className="msg-date">
-                                                            {/* {
-                                                              `${new Date(message?.timestamp).toLocaleDateString()} ${ new Date(message?.timestamp).toLocaleTimeString()}`
-                                                            } */}
-                                                            {formatTimestamp(message?.timestamp)}
+                                                            {message?.timestamp? formatTimestamp(message?.timestamp): null} 
                                                         </p>
                                                     </div>
-                                                ): (
+                                                ):(
                                                     <div className="receiver-chat-wrapper">
                                                         <p className="msg-content">{typeof message === 'string' ? message : message?.message}</p>
                                                         <p className="msg-date">

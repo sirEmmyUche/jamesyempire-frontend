@@ -9,7 +9,7 @@ import { user } from "../store/user";
 
 const FormChangeTracker = ({action, id}) => {
   const isUser = user((state)=>state.user)
-   const token =  isUser.token  //'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50X2lkIjoiMzNkNGZmMzItMDdiNS00OTljLThmYWUtZTczZjY5NGMyMjU0IiwiaWF0IjoxNzUwMTcyNzcyfQ.sRjh_En0j3S5itXgRFeZo4Xui_h7GDRomEYHY8DCeaA';
+   const token =  isUser.token
   const {formState:{ dirtyFields, isDirty },watch, } = useFormContext();
   const watchedValues = watch();
   const modifiedFieldValues = Object.keys(dirtyFields).reduce((obj,key)=>{

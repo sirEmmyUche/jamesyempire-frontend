@@ -203,9 +203,14 @@ const defaultValues = mode === 'edit' ? {
             />
           </div>
         </div>
-        <div className="parent-input-holder">
-          <PropertyFeatures />
-        </div>
+        {
+          mode == 'create' && (
+            <div className="parent-input-holder">
+              <PropertyFeatures />
+          </div>
+          )
+        }
+       
         <div className="parent-input-holder">
           <TextArea
             name="description"
