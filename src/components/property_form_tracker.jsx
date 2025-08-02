@@ -66,11 +66,11 @@ const FormChangeTracker = ({action, id}) => {
      const formData = new FormData();
      for (let key in modifiedFieldValues) {
         const value = modifiedFieldValues[key];
-        if (key === 'images') {
+        if (key === 'image') {
           if (Array.isArray(value)) {
             value.forEach((file) => {
               if (file instanceof File) {
-                formData.append('images', file);
+                formData.append('image', file);
               }
             });
           }
@@ -100,6 +100,7 @@ const FormChangeTracker = ({action, id}) => {
             type='submit'  text={'Save'} 
             iconLeft={<MdOutlineFileUpload/>}
             isLoading={isLoading}
+            className="property-form-btn"
           />
         </div>
     </div>

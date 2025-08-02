@@ -1,8 +1,20 @@
-import React from 'react';
+import React,{useEffect} from 'react';
 import { useForm, FormProvider } from 'react-hook-form';
 
-const Form = ({ children, onSubmit, defaultValues, formProps,}) => {
-  const methods = useForm({ defaultValues });
+const Form = ({ children, onSubmit, defaultValues, formProps,autoResetOnDefaultChange = false }) => {
+  const methods = useForm({ defaultValues : {}});
+
+   const { reset,} = methods;
+
+  // Reset form when defaultValues prop changes
+  useEffect(() => {
+    if(!autoResetOnDefaultChange)return
+    const loadAndReset = async () => {
+      const values = typeof defaultValues === 'function' ? await defaultValues() : defaultValues;
+      reset(values); // ✅ reset form with new default values
+    };
+    loadAndReset();
+  }, [defaultValues, reset,autoResetOnDefaultChange ]);
 
   const internalOnSubmit = (data) => {
     if (onSubmit) {

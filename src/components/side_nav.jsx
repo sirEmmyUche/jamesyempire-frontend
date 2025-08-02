@@ -69,7 +69,7 @@ const SideNav =({isCollapsed})=>{
                 </Link>
             </li>
             <li>
-                <Link to={'/dashboard/chat-list'}>
+                <Link to={'/dashboard/settings'}>
                     <span className={`${isCollapsed?'expand':''}`}>
                         <IoMdSettings color="#ffffff" size={20}/>
                     </span>

@@ -1,11 +1,11 @@
-import { useEffect } from 'react'
+import { useEffect,useMemo } from 'react'
 import Form from '../components/form'
 import InputField from '../components/inputs'
 import TextArea from './text_area_field'
 import Button from '../components/Button'
 import SelectField from '../components/selectField'
 import ImageUploadField from './image_upload'
-// import { useFormContext,useWatch } from 'react-hook-form';
+import { useFormContext,useWatch } from 'react-hook-form';
 import { MdOutlineFileUpload } from "react-icons/md";
 import PropertyFeatures from './property_features'
 import FormChangeTracker from './property_form_tracker'
@@ -19,7 +19,8 @@ const PropertyForm = ({ mode = 'create', propertyData = {},}) => {
   // console.log('propertyData',propertyData)
   // const {reset,} = useForm();
   const isUser = user((state)=>state.user)
-  const token = isUser.token || ''
+  const token = isUser.token || '';
+  // console.log(propertyData)
 
   const mutation = useMutation({
     mutationFn: mode === 'edit'? async (formData)=> updateProperty(token,formData)
@@ -37,56 +38,83 @@ const PropertyForm = ({ mode = 'create', propertyData = {},}) => {
       if(data.success){
         showToast(data.message,'success')
       }else{
-        showToast(data.message,'error')
+        showToast(data.error?.message,'error')
       }
     },
   })
   const isLoading = mutation.isPending;
+
+
+    // Memoize initialImages to stabilize prop
+  const initialImages = useMemo(() => {
+    if (!propertyData.image) return [];
+    return Array.isArray(propertyData.image) ? propertyData.image : [propertyData.image];
+  }, 
+  [propertyData.image]);
+
+    // Define defaultValues based on mode
+  const defaultValues = useMemo(
+    () =>
+      mode === 'edit'
+        ? {
+            title: propertyData.title || '',
+            address: propertyData.address || '',
+            country: propertyData.country || '',
+            state: propertyData.state || '',
+            price: propertyData.price || '',
+            status: propertyData.status || '',
+            available_for: propertyData.available_for || '',
+            category: propertyData.category || '',
+            description: propertyData.description || '',
+            image: initialImages.map((url, index) => ({
+              preview: url,
+              isServerImage: true,
+              id: `server-${index}`,
+            })),
+            bathroom: propertyData?.property_features?.bathroom || '',
+            bedroom: propertyData?.property_features?.bedroom || '',
+            square: propertyData?.property_features?.square || '',
+            model: propertyData?.property_features?.model || '',
+            make: propertyData?.property_features?.make || '',
+            year: propertyData?.property_features?.year || '',
+            capacity: propertyData?.property_features?.capacity || '',
+            vessel: propertyData?.property_features?.vessel || '',
+            cabin: propertyData?.property_features?.cabin || '',
+          }
+        : {
+            title: '',
+            address: '',
+            country: '',
+            state: '',
+            price: '',
+            status: '',
+            available_for: '',
+            category: '',
+            description: '',
+            image: [],
+            bathroom: '',
+            bedroom: '',
+            square: '',
+            model: '',
+            make: '',
+            year: '',
+            capacity: '',
+            vessel: '',
+            cabin: '',
+          },
+    [propertyData, initialImages]
+  );
   
-  // console.log('property data:', propertyData)
-  // Define defaultValues based on mode
-
-const defaultValues = mode === 'edit' ? {
-    title: propertyData.title ,
-    address: propertyData.address ,
-    country: propertyData.country,
-    state: propertyData.state || '',
-    price: propertyData.price || '',
-    status: propertyData.status || '',
-    available_for: propertyData.available_for || '',
-    category: propertyData.category || '',
-    description: propertyData.description || '',
-    images: propertyData.images || [],
-    bathroom:propertyData?.property_features?.bathroom || '',
-    bedroom:propertyData?.property_features?.bedroom || '',
-    square:propertyData.property_features?.square || '',
-    model:propertyData.property_features?.model || '',
-    make:propertyData.property_features?.make || '',
-    year:propertyData.property_features?.year || '',
-    capacity:propertyData.property_features?.capacity || '',
-    vessel:propertyData.property_features?.vessel || '',
-    cabin:propertyData.property_features?.cabin || '',
-  } : {};
-
-// useEffect(()=>{
-//   const isPropertyDetailsReady = async()=>{
-//      if(mode === 'edit' ) {
-//       console.log('form has changed')
-//       // reset();
-//      }
-//   }
-//   isPropertyDetailsReady()
-// },[propertyData,isDataLoading,])
 
   const handleOnSubmit = (data) => {
       const formData = new FormData();
       for (let key in data) {
         const value = data[key];
-        if (key === 'images') {
+        if (key === 'image') {
           if (Array.isArray(value)) {
             value.forEach((file) => {
               if (file instanceof File) {
-                formData.append('images', file);
+                formData.append('image', file);
               }
             });
           }
@@ -117,7 +145,9 @@ const defaultValues = mode === 'edit' ? {
   const id = propertyData.property_id
   return (
     <section id="property-form">
-      <Form onSubmit={handleOnSubmit} defaultValues={async()=> defaultValues}>
+      <Form onSubmit={handleOnSubmit} 
+      defaultValues={async()=> defaultValues}
+       autoResetOnDefaultChange={true}>
         {mode === 'edit' && (<div className='form-tracker-holder'>
           <FormChangeTracker isLoading={isLoading} id={id} />
           </div>)
@@ -229,8 +259,12 @@ const defaultValues = mode === 'edit' ? {
           />
         </div>
         <ImageUploadField
-          name="images"
+          name="image"
           rules={mode === 'create' ? { required: 'Please upload at least one image' } : {}}
+          propertyId={propertyData?.property_id}
+          // token={token}
+          // isEditMode={mode !== 'create'}
+          // initialImages={initialImages}
         />
         {
             mode == 'create' && (
@@ -241,6 +275,7 @@ const defaultValues = mode === 'edit' ? {
                   text="Upload"
                   iconLeft={<MdOutlineFileUpload />}
                   isLoading={isLoading}
+                  className='property-form-btn'
                   />
                 </div>
               </div>

@@ -1,5 +1,5 @@
-// export const baseUrl = 'http://localhost:3000'
-export const baseUrl = 'https://jamesyempire-backend.onrender.com'
+export const baseUrl = 'http://localhost:3000'
+// export const baseUrl = 'https://jamesyempire-backend.onrender.com'
 
 // NB try catch was not use because tanstack query automatically does that.
 
@@ -100,7 +100,32 @@ export const searchProperty = async (params = {}) => {
     return data
 }
 
+export const deletePropertyById = async (id,token)=>{
+    const res = await fetch(`${baseUrl}/v1/remove-property/${id}`,{
+        method:'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`,
+        },
+        credentials:'include',
+    })
+    const data = await res.json();
+    return data
+}
 
+export const deleteImageFromPropertyImage = async ({id,token,formData})=>{
+    const res = await fetch(`${baseUrl}/v1/remove-image-from-property-image/${id}?imageUrl=${formData}`,{
+        method:'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`,
+        },
+        // body: JSON.stringify(formData),
+        credentials:'include',
+    })
+    const data = await res.json();
+    return data
+}
 
 export const getAllProperty = async ({page})=>{
     const res = await fetch(`${baseUrl}/v1/property/?page=${page}`,{
