@@ -32,7 +32,7 @@ function Nav() {
                 </li>
                 {
                     token && (<li>
-                    <Link to={'/dashboard'}>Resources</Link>
+                    <Link to={'/dashboard'}>Dashboard</Link>
                 </li>)
                 }
             </ul>

@@ -112,30 +112,6 @@ const ImageUploadField = ({ name, control, rules, maxFiles=10,
 };
 
 
-  // const removeImage = async (index) => {
-  //   const file = value[index];
-  //   if (file.isServerImage) {
-  //     try {
-  //       // console.log('file to delete',file)
-  //       const imgUrl = file.preview;
-  //       // console.log(imgUrl)
-  //       const formData = imgUrl;
-  //       mutation.mutate(formData)
-        
-  //     } catch (error) {
-  //       console.error('Error deleting image:', error);
-  //       return;
-  //     }
-  //   } else {
-  //     URL.revokeObjectURL(file.preview);
-  //     blobUrlsRef.current.delete(file.preview);
-  //   }
-
-  //   // const updated = [...value];
-  //   // updated.splice(index, 1);
-  //   // onChange(updated);
-  // };
-
   return (
     <div className="image-upload-field">
       <div
@@ -174,7 +150,7 @@ const ImageUploadField = ({ name, control, rules, maxFiles=10,
           ))}
         </div>
       )}
-      {error && <p className="form-error-msg">{error.message}</p>}
+      {/* {error && <p className="form-error-msg">{error.message}</p>} */}
     </div>
   );
 };

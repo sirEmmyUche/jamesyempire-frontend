@@ -44,6 +44,7 @@ const PhoneInputField = ({
             inputProps={{
               name,
               id: name,
+              enableSearch:true,
               ...rest,
             }}
           />

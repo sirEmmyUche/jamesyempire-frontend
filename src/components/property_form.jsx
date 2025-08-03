@@ -147,7 +147,7 @@ const PropertyForm = ({ mode = 'create', propertyData = {},}) => {
     <section id="property-form">
       <Form onSubmit={handleOnSubmit} 
       defaultValues={async()=> defaultValues}
-       autoResetOnDefaultChange={true}>
+       autoResetOnDefaultChange={mode=='create'? false : true}>
         {mode === 'edit' && (<div className='form-tracker-holder'>
           <FormChangeTracker isLoading={isLoading} id={id} />
           </div>)

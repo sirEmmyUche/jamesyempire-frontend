@@ -140,6 +140,66 @@ textarea{
 
 /* components styling begins here */
 
+
+/* my-profile */
+.my-profile-pg{
+   input{
+  width: 100%;
+  padding: 15px 5px;
+  border:1px solid var(--sec--shades-of-purple);
+  font-size: var(--default-font-size);
+  border-radius: 10px;
+  box-shadow: 2px 2px 2px 2px var(--sec--shades-of-purple);
+  }
+  input:focus{
+    border: 1px solid var(--main-color-purple);
+  }
+  label{
+    color: var(--main-color-purple);
+    font-weight: 600;
+  }
+  .name-input-main-holder{
+    border: 1px solid transparent;
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    .child-name-input-holder{
+      border: 1px solid transparent;
+      width: 70%;
+      display: flex;
+      justify-content: space-between;
+      .box{
+        border: 1px solid transparent;
+        width: 45%;
+      }
+    }
+  }
+  .email-input-main-holder{
+    border: 1px solid transparent;
+    margin: 1rem 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    .child-email-input-holder{
+        border: 1px solid transparent;
+      width: 70%;
+    }
+  }
+  .image-input-main-holder{
+    .drop-zone-holder{
+      border: 1px solid red;
+      .image-upload-field{
+        border: 1px solid blue;
+        display: flex;
+      }
+    }
+  }
+}
+
+
+
+
 /* dropzone styling */
 .dropzone-drag-n-drop-area{
   border: 2px dashed #ccc;
