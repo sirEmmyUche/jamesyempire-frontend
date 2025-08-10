@@ -38,7 +38,7 @@ const HomePagePropertyListingSample = ()=>{
             <div className="card-map-container">
                 {data?.properties?.map((item) => (
                     <Card key={item.property_id} title={item.title} 
-                    image={item.image}
+                    image={item.image?.secure_url}
                     country={item.country}
                     property_id={item.property_id} 
                     address = {item.address}

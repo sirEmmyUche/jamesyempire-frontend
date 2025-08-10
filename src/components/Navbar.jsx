@@ -51,7 +51,7 @@ function Nav() {
                 ) :
                 (
                     <div className="nav-profile-pic-container">
-                        <span>{isUser?.firstName}</span>
+                        <span>{isUser?.firstname}</span>
                         <div className="nav-profile-pic-wrapper">
                             <ProfilePic/>
                         </div>

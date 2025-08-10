@@ -21,6 +21,7 @@ const PropertyDetails = ()=>{
      const location = useLocation();
      const property_id = params.id
      const initialImage = location?.state?.image || 'xxx'
+    //  console.log(location?.state?.image)
      const role = isUser?.role
     //  console.log('initial-image',initialImage)
      const { isPending, isError, data, error, isLoading,
@@ -38,27 +39,40 @@ const PropertyDetails = ()=>{
          //initial image was rendered twice here in the array to allow carousel 
         // to have more than one item to render thus avoiding unexpected behaviour
         image = [initialImage,initialImage] || []
+        //  image = [{ secure_url: initialImage }, { secure_url: initialImage }];
     }
 
     if(error){
         console.error(error)
         image = [initialImage,initialImage] || []
+        //  image = [{ secure_url: initialImage }, { secure_url: initialImage }];
         showToast('Unable to display this property at the moment, please try again later','error')
     }
 
     if(data && !data.success) {
         // console.log(data)
         image = [initialImage,initialImage] || []
+        //  image = [{ secure_url: initialImage }, { secure_url: initialImage }]; 
         showToast(data.error.message,'error')
     }
 
     if(data && data.success){
-        if(data?.property?.image && data?.property?.image.length >= 2){
-            image = data?.property?.image
+        if(data?.property?.images && data?.property?.images.length >= 2){
+            image = data?.property?.images.map((img) => ({ secure_url: img.secure_url }));
         }else{
-            image = [initialImage,initialImage] || []
+            image = [{ secure_url: initialImage }, { secure_url: initialImage }];
         }
     }
+
+
+    // if(data && data.success){
+    //     // console.log(data)
+    //     if(data?.property?.images && data?.property?.images.length >= 2){
+    //         image = data?.property?.images
+    //     }else{
+    //         image = [initialImage,initialImage] || []
+    //     }
+    // }
 
     return(<section id="property-details">
         <div className="prop-details-child-1">
@@ -87,14 +101,7 @@ const PropertyDetails = ()=>{
              </div>
            
         }
-{/* 
-        <div className="prop-details-child-3">
-            { 
-            //!isLoading && 
-            userId == data?.property?.account_id &&
-            <PropertyForm mode="edit" propertyData={data?.property}/>
-            }
-        </div> */}
+
         {
               userId == data?.property?.account_id || role =='admin'?
               <div className="prop-details-child-4">

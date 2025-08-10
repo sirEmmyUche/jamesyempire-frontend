@@ -1,5 +1,5 @@
-// export const baseUrl = 'http://localhost:3000'
-export const baseUrl = 'https://jamesyempire-backend.onrender.com'
+export const baseUrl = 'http://localhost:3000'
+// export const baseUrl = 'https://jamesyempire-backend.onrender.com'
 
 // NB try catch was not use because tanstack query automatically does that.
 
@@ -24,6 +24,35 @@ export const logIn = async (formData)=>{
                         'Content-Type': 'application/json',
                     },
                 body: JSON.stringify(formData),
+                // credentials: 'include',
+        });
+        const result = await data.json();
+        // console.log('logIn', result);
+        return result;
+}
+
+export const changePassword = async (token,formData)=>{
+        const data = await fetch(`${baseUrl}/v1/account/change-password`,{
+                method:'post',
+                headers: {
+                        'Content-Type': 'application/json',
+                         "Authorization": `Bearer ${token}`,
+                    },
+                body: JSON.stringify(formData),
+                // credentials: 'include',
+        });
+        const result = await data.json();
+        // console.log('logIn', result);
+        return result;
+}
+
+export const updateAccount = async (token,formData)=>{
+        const data = await fetch(`${baseUrl}/v1/update-account`,{
+                method:'post',
+                headers: {
+                         "Authorization": `Bearer ${token}`,
+                    },
+                body: formData,
                 // credentials: 'include',
         });
         const result = await data.json();

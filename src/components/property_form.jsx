@@ -47,10 +47,10 @@ const PropertyForm = ({ mode = 'create', propertyData = {},}) => {
 
     // Memoize initialImages to stabilize prop
   const initialImages = useMemo(() => {
-    if (!propertyData.image) return [];
-    return Array.isArray(propertyData.image) ? propertyData.image : [propertyData.image];
+    if (!propertyData.images) return [];
+    return Array.isArray(propertyData.images) ? propertyData.images : [propertyData.images];
   }, 
-  [propertyData.image]);
+  [propertyData.images]);
 
     // Define defaultValues based on mode
   const defaultValues = useMemo(
@@ -67,9 +67,10 @@ const PropertyForm = ({ mode = 'create', propertyData = {},}) => {
             category: propertyData.category || '',
             description: propertyData.description || '',
             image: initialImages.map((url, index) => ({
-              preview: url,
+              preview: url.secure_url,
               isServerImage: true,
-              id: `server-${index}`,
+              public_id:url.public_id,
+              id: `local-${Date.now()}-${Math.random()}`,
             })),
             bathroom: propertyData?.property_features?.bathroom || '',
             bedroom: propertyData?.property_features?.bedroom || '',
@@ -233,13 +234,13 @@ const PropertyForm = ({ mode = 'create', propertyData = {},}) => {
             />
           </div>
         </div>
-        {
-          mode == 'create' && (
+        {/* {
+          mode == 'create' && ( */}
             <div className="parent-input-holder">
               <PropertyFeatures />
           </div>
-          )
-        }
+          {/* )
+        } */}
        
         <div className="parent-input-holder">
           <TextArea
@@ -260,8 +261,12 @@ const PropertyForm = ({ mode = 'create', propertyData = {},}) => {
         </div>
         <ImageUploadField
           name="image"
-          rules={mode === 'create' ? { required: 'Please upload at least one image' } : {}}
+          rules={mode === 'create' ? { 
+            required: 'Please upload at least one image',
+            // pattern: (value)=> value.length <=10 || 'maximum of 10 images are allowed'
+           } : {}}
           propertyId={propertyData?.property_id}
+          maxFiles={10}
           // token={token}
           // isEditMode={mode !== 'create'}
           // initialImages={initialImages}

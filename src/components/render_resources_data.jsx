@@ -28,6 +28,8 @@ const RenderResourceData = ({resourceAPIFn,
         showToast(data?.error?.message,'info')
     }
 
+    // console.log('property-data',data)
+
     const hasProperty = data?.success && data?.properties?.length > 0;
     const handlePrevPage = ()=>{
         setPage((old) => Math.max(old - 1, 0))
@@ -41,7 +43,7 @@ const RenderResourceData = ({resourceAPIFn,
         <div className="card-holder">
                     {data?.properties?.map((item) => (
                     <Card key={item.property_id} title={item.title} 
-                    image={item.image}
+                    image={item.image.secure_url}
                     country={item.country}
                     property_id={item.property_id} 
                     address = {item.address}

@@ -36,6 +36,11 @@ const PhoneInputField = ({
           <PhoneInput
             country={country}
             value={value || ""}
+            containerClass={'phone-input-container'}
+            inputClass={'phone-input-class'}
+            buttonClass={'buttonClass'}
+             enableSearch={true}
+            disableSearchIcon={true}
             onChange={(phone) => {
               const formattedPhone = phone.startsWith("+") ? phone : `+${phone}`;
               onChange(formattedPhone);
@@ -44,7 +49,6 @@ const PhoneInputField = ({
             inputProps={{
               name,
               id: name,
-              enableSearch:true,
               ...rest,
             }}
           />

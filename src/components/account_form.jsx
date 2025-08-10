@@ -6,7 +6,6 @@ import { logIn, signUp } from '../APIs'
 import { showToast } from '../utils/toast'
 import { user } from '../store/user'
 import { useNavigate } from 'react-router-dom'
-import PhoneInput from 'react-phone-input-2'
 import 'react-phone-input-2/lib/style.css'
 
 const AccountForm = ({mode='signup'})=>{
@@ -22,7 +21,7 @@ const AccountForm = ({mode='signup'})=>{
                     let errorMessage = data?.error?.details?.fields?.map((field)=>field.message)
                     errorMessage.forEach((message)=>showToast(message,'error'))
                 }else{
-                    showToast(data.error.message,'error')
+                    showToast(data?.error?.message,'error')
                 }
             }else if(data && data.success){
                 if(mode === 'login'){
@@ -51,13 +50,13 @@ const AccountForm = ({mode='signup'})=>{
                 mode == 'signup' && (
                     <div>
                         <div className='input-field-wraper'>
-                            <InputField  type='text' name={'firstName'} 
+                            <InputField  type='text' name={'firstname'} 
                             label={'First name'} placeholder={'Jon'}
                             validationRules={{required:'required'}}
                             />
                         </div>
                          <div className='input-field-wraper'>
-                            <InputField  type='text' name={'lastName'} label={'Last name'} 
+                            <InputField  type='text' name={'lastname'} label={'Last name'} 
                             validationRules={{required:'required'}}
                             placeholder={'Doe'}/>
                         </div>

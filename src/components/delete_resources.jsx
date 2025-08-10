@@ -10,6 +10,7 @@ const DeleteResources =({resourceAPIFn, resourceId})=>{
     const [isOpen, setIsOpen] = useState(false);
     const isUser = user((state) => state.user); 
     const token = isUser?.token || ''
+    
     function openModal() {
     setIsOpen(true);
     }
@@ -23,7 +24,7 @@ const DeleteResources =({resourceAPIFn, resourceId})=>{
       
         onError: (error) =>{
           showToast('Something went wrong','error')
-          console.log('mutation property form error:',error)
+          console.error('mutation delete property form error:',error)
         },
         onSuccess:(data)=>{
         //    console.log('mutation success data:', data)

@@ -3,7 +3,8 @@ import {user} from '../store/user'
 
 const ProfilePic = ({mode = 'default', useImgSrc, isLoading})=>{
     const isUser = user((state)=>state.user);
-    const profilePic= isUser?.profile_pic;
+    // console.log(isUser)
+    const profilePic = isUser?.profile_pic?.secure_url;
     let imgSrc;
     let profilePicPlaceholder = "/images/user-profile-pic-placeholder.png"
 

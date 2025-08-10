@@ -9,6 +9,8 @@ const Carousel = ({ images }) => {
   let sliderRef1 = useRef(null);
   let sliderRef2 = useRef(null);
 
+  // console.log(images)
+
   // Settings for the main slider
   const mainSliderSettings = {
      slidesToShow: 1,
@@ -50,7 +52,7 @@ const Carousel = ({ images }) => {
           <div key={index} className="slider-main-item"> {/* Each image is now a direct child slide */}
             <div className="isText">
                  <div className="is-x">
-                   <img src={image} alt={`slide-${index}`} />
+                   <img src={image.secure_url || image} alt={`slide-${index}`} />
                  </div>
             </div>
            
@@ -67,7 +69,7 @@ const Carousel = ({ images }) => {
             <div key={index} className="thumb-slider-item"> {/* Each image is now a direct child slide */}
                  <div className="isText">
                  <div className="is-x">
-                   <img src={image} alt={`nav-thumb-${index}`}/>
+                   <img src={image.secure_url || image} alt={`nav-thumb-${index}`}/>
                  </div>
             </div>
             </div>
