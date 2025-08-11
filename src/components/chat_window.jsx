@@ -15,7 +15,7 @@ const ChatWindow = ({ mode='user', data={}})=>{
     const getChatroomDetails =  useChatStore((state) => state.selectedUser)
   
     // console.log('window-data:', data);
-    console.log('window-get-mes:', getChatroomDetails );
+    // console.log('window-get-mes:', getChatroomDetails );
 
     useEffect(() => {
         endRef.current?.scrollIntoView({ behavior: 'smooth' });
