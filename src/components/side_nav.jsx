@@ -11,6 +11,7 @@ import ProfilePic from './profile_pic';
 import { user } from '../store/user';
 import UseModal from "./useModal"
 import Button from "./Button"
+import Logo from './logo';
 
 const SideNav =({isCollapsed})=>{
     const [menubar, setMenubar] = useState(false);
@@ -31,6 +32,10 @@ const SideNav =({isCollapsed})=>{
     const logOut = user((state)=>state.clearUser);
 
     return(<aside>
+
+        <div className='logo-holder-wrapper'>
+            <Logo linkTo={'/dashboard'}/>
+        </div>
         {
             !isCollapsed && (
             <div className='avatar-parent-wrapper'>

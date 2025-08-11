@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import { user } from "../store/user";
 import ProfilePic from './profile_pic'
+import Logo from "./logo";
 
 function Nav() {
     const [menubar, setMenubar] = useState(false);
@@ -12,12 +13,13 @@ function Nav() {
     return (
       <nav>
         <div className="logo-container">
-            <div className="img-holder">
+            <Logo/>
+            {/* <div className="img-holder">
                 <img src="/images/logo.jpg" alt="logo"/>
             </div>
             <h5>
                 <Link to={'/'}>JamesyEmpire</Link>
-            </h5>
+            </h5> */}
         </div>
         <div className={menubar?"nav-responsive-holder":"--hide"}>
             <ul className="nav-ul-container">
