@@ -28,7 +28,7 @@ const ChatList = ({requestToJoin,})=>{
     // console.log(data)
 
     const fnUpdateChatroomDetails = (item)=>{
-         console.log('this is the item:',item)
+        //  console.log('this is the item:',item)
          useChatStore.getState().setChatRoomId(item.chatroom_id);
          useChatStore.getState().setSelectedUser(item);
 
@@ -46,8 +46,9 @@ const ChatList = ({requestToJoin,})=>{
                         {/* <div className={item.status =='active'?'chat-is-active':'chat-is-notActive'}></div> */}
                         <div className={`chat-profile-pic-wrapper ${item.status =='active'?'chat-is-active':'chat-is-notActive'}`}>
                             <ProfilePic isLoading={isLoading} 
-                            useImgSrc={item?.user_profile_img}
+                            useImgSrc={item?.user_profile_img_metadata?.secure_url}
                             mode='user-avi'/>
+                            {console.log(item?.user_profile_img_metadata?.secure_url)}
                         </div>
                         <div className='chat-list-content'>
                             <h2>{isLoading? <Skeleton width={'50%'}/>:item.user_firstname}</h2>

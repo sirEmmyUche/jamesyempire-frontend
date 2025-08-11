@@ -140,7 +140,7 @@ useEffect(() => {
                             </div>
                             <div className={toggleChatWindow?'chat-window': 'hide-chat-area'}>
                                 <div className='msg-display-form-wrapper'>
-                                    <ChatWindow mode='user'
+                                    <ChatWindow mode={'user'}
                                     data={propertyData}/>
                                     <ChatMsgInput emit={emitMessage}/>
                                 </div>

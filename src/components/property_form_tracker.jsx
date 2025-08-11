@@ -58,11 +58,11 @@ const FormChangeTracker = ({action, id}) => {
     // console.log(dirtyFields)
     const isFormEmpty = formIsEmpty(modifiedFieldValues);
     if(isFormEmpty){
-      showToast('No changes made','info')
-      console.log('Form is empty');
+      // showToast('No changes made','info')
+      // console.log('Form is empty');
       return;
     }
-     console.log("Watched values:", modifiedFieldValues);
+    //  console.log("Watched values:", modifiedFieldValues);
      const formData = new FormData();
      for (let key in modifiedFieldValues) {
         const value = modifiedFieldValues[key];

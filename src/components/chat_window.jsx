@@ -14,7 +14,8 @@ const ChatWindow = ({ mode='user', data={}})=>{
     const endRef = useRef(null);
     const getChatroomDetails =  useChatStore((state) => state.selectedUser)
   
-    // console.log('window-chat-mes:', data);
+    // console.log('window-data:', data);
+    // console.log('window-get-mes:', getChatroomDetails );
 
     useEffect(() => {
         endRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -25,7 +26,9 @@ const ChatWindow = ({ mode='user', data={}})=>{
             <div className="user-property-detail">
                 <div className="user-details">
                     <div className="profile-pic-wrapper">
-                        <ProfilePic useImgSrc={mode==='user'? data?.agent_profile_img : getChatroomDetails?.user_profile_img}/>
+                        <ProfilePic 
+                        mode="not-default"
+                        useImgSrc={mode==='user'? data?.agent_profile_img : getChatroomDetails?.user_profile_img}/>
                     </div>
                     <span>{mode==='user'? data?.posted_by : getChatroomDetails?.user_firstname}</span>
                 </div>

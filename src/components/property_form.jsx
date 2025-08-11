@@ -10,7 +10,7 @@ import { MdOutlineFileUpload } from "react-icons/md";
 import PropertyFeatures from './property_features'
 import FormChangeTracker from './property_form_tracker'
 import {useMutation,} from '@tanstack/react-query'
-import { uploadProperty,updateProperty} from '../APIs'
+import { uploadProperty,updateProperty,deleteImageFromPropertyImage} from '../APIs'
 import { showToast } from '../utils/toast'
 import {user} from '../store/user'
 // import { useForm } from 'react-hook-form';
@@ -267,6 +267,7 @@ const PropertyForm = ({ mode = 'create', propertyData = {},}) => {
            } : {}}
           propertyId={propertyData?.property_id}
           maxFiles={10}
+          mutationFn={deleteImageFromPropertyImage}
           // token={token}
           // isEditMode={mode !== 'create'}
           // initialImages={initialImages}

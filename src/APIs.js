@@ -156,6 +156,20 @@ export const deleteImageFromPropertyImage = async ({id,token,formData})=>{
     return data
 }
 
+export const deleteProfilePics = async ({id,token,formData})=>{
+    const res = await fetch(`${baseUrl}/v1/account/delete-profile-pics/${id}?imageUrl=${formData}`,{
+        method:'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`,
+        },
+        // body: JSON.stringify(formData),
+        credentials:'include',
+    })
+    const data = await res.json();
+    return data
+}
+
 export const getAllProperty = async ({page})=>{
     const res = await fetch(`${baseUrl}/v1/property/?page=${page}`,{
         method:'get',

@@ -10,10 +10,12 @@ import { useFormContext, useForm } from "react-hook-form"
 import { updateAccount } from "../APIs"
 import {useMutation,} from '@tanstack/react-query'
 import { showToast } from "../utils/toast"
+import { deleteProfilePics } from "../APIs"
 
 const MyProfile = ()=>{
      const isUser = user((state)=>state.user);
      const profilePic= isUser?.profile_pic?.secure_url;
+     const public_id = isUser?.profile_img
        const updateUser = user((state) => state.updateUser);
         const token = isUser.token || '';
    
@@ -37,6 +39,7 @@ const MyProfile = ()=>{
         profile_pics: initialImages.map((url, index) => ({
               preview: url,
               isServerImage: false,
+              public_id:public_id,
               id: `local-${Date.now()}-${Math.random()}`,
             })),
         
@@ -55,7 +58,7 @@ const MyProfile = ()=>{
     onSuccess:(data)=>{
        console.log('mutation success data:', data)
       if(data && data.success){
-          updateUser(data.user);
+          updateUser(data?.user);
         showToast(data.message,'success')
       }else{
         showToast(data.error?.message,'error')
@@ -172,6 +175,7 @@ const MyProfile = ()=>{
                         name="profile_pics"
                         maxFiles={1}
                         isProfileImage={true}
+                        mutationFn={deleteProfilePics}
                         />
                     </div>
                 </div>

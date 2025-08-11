@@ -14,6 +14,7 @@ const ImageUploadField = ({
   rules,
   maxFiles = 10,
   isProfileImage = false,
+  mutationFn,
   className = '',
   propertyId = '',
 }) => {
@@ -31,7 +32,7 @@ const ImageUploadField = ({
 
   const mutation = useMutation({
     mutationFn: async (formData) =>
-      deleteImageFromPropertyImage({ id, formData, token }),
+       mutationFn({ id, formData, token }),
     onError: (error) => {
       showToast('Something went wrong', 'error');
       console.log('mutation property form error:', error);
