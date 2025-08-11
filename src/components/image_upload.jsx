@@ -6,7 +6,7 @@ import Button from './Button';
 import { useMutation } from '@tanstack/react-query';
 import { showToast } from '../utils/toast';
 import { user } from '../store/user';
-import { deleteImageFromPropertyImage } from '../APIs';
+// import { deleteImageFromPropertyImage } from '../APIs';
 
 const ImageUploadField = ({
   name,
@@ -155,7 +155,7 @@ const ImageUploadField = ({
                 onError={(e) => {
                   e.target.src = 'https://via.placeholder.com/100?text=Error';
                 }}/>
-                {!isProfileImage && (
+                {/* {!isProfileImage && ( */}
                   <div className='remove-img-btn-wrapper'>
                 <Button  
                 type='button'
@@ -166,7 +166,7 @@ const ImageUploadField = ({
                 isLoading={file.id === loadingImageId}
                   />
               </div>
-                )}
+                {/* )} */}
             </div>
           ))}
         </div>

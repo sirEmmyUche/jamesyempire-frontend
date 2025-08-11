@@ -1,23 +1,22 @@
 import { useState, useMemo } from "react"
 import ImageUploadField from "./image_upload"
-import Button from "./Button"
 import PhoneInputField from "./phone_inputs"
 import Form from "./form"
 import InputField from "./inputs"
 import {user} from '../store/user'
-import { MdOutlineFileUpload } from "react-icons/md";
-import { useFormContext, useForm } from "react-hook-form"
-import { updateAccount } from "../APIs"
-import {useMutation,} from '@tanstack/react-query'
-import { showToast } from "../utils/toast"
+// import { useFormContext, useForm } from "react-hook-form"
+// import { updateAccount } from "../APIs"
+// import {useMutation,} from '@tanstack/react-query'
+// import { showToast } from "../utils/toast"
 import { deleteProfilePics } from "../APIs"
+import MyProfileFormTracker from "./my_profile_tracker"
 
 const MyProfile = ()=>{
      const isUser = user((state)=>state.user);
      const profilePic= isUser?.profile_pic?.secure_url;
      const public_id = isUser?.profile_img
-       const updateUser = user((state) => state.updateUser);
-        const token = isUser.token || '';
+    //    const updateUser = user((state) => state.updateUser);
+    //     const token = isUser.token || '';
    
 
      let profilePicPlaceholder = "/images/user-profile-pic-placeholder.png"
@@ -38,7 +37,7 @@ const MyProfile = ()=>{
         phone: isUser.phone || '',
         profile_pics: initialImages.map((url, index) => ({
               preview: url,
-              isServerImage: false,
+              isServerImage: true,
               public_id:public_id,
               id: `local-${Date.now()}-${Math.random()}`,
             })),
@@ -48,70 +47,55 @@ const MyProfile = ()=>{
     return defaultValue
     },[isUser])
 
-    const mutation = useMutation({
-    mutationFn: (formData)=> updateAccount(token,formData),
+//     const mutation = useMutation({
+//     mutationFn: (formData)=> updateAccount(token,formData),
   
-    onError: (error) =>{
-      showToast('Something went wrong','error')
-      console.log('mutation update account error:',error)
-    },
-    onSuccess:(data)=>{
-       console.log('mutation success data:', data)
-      if(data && data.success){
-          updateUser(data?.user);
-        showToast(data.message,'success')
-      }else{
-        showToast(data.error?.message,'error')
-      }
-    },
-  })
-  const isLoading = mutation.isPending;
+//     onError: (error) =>{
+//       showToast('Something went wrong','error')
+//       console.log('mutation update account error:',error)
+//     },
+//     onSuccess:(data)=>{
+//        console.log('mutation success data:', data)
+//       if(data && data.success){
+//           updateUser(data?.user);
+//         showToast(data.message,'success')
+//       }else{
+//         showToast(data.error?.message,'error')
+//       }
+//     },
+//   })
 
-   const handleOnSubmit = (data) => {
-    console.log('my profile-data:',data)
-      const formData = new FormData();
-      for (let key in data) {
-        const value = data[key];
-        if (key === 'profile_pics') {
-          if (Array.isArray(value)) {
-            value.forEach((file) => {
-              if (file instanceof File) {
-                formData.append('profile_pics', file);
-              }
-            });
-          }
-        } 
-        else if (value !== undefined && value !== null){
-          formData.append(key, value);
-        }
-      }
-      mutation.mutate(formData)
-  };
+//   const isLoading = mutation.isPending;
+
+//    const handleOnSubmit = (data) => {
+//     console.log('my profile-data:',data)
+//       const formData = new FormData();
+//       for (let key in data) {
+//         const value = data[key];
+//         if (key === 'profile_pics') {
+//           if (Array.isArray(value)) {
+//             value.forEach((file) => {
+//               if (file instanceof File) {
+//                 formData.append('profile_pics', file);
+//               }
+//             });
+//           }
+//         } 
+//         else if (value !== undefined && value !== null){
+//           formData.append(key, value);
+//         }
+//       }
+//       mutation.mutate(formData)
+//   };
 
     return (
             <div className="my-profile-pg">
-                <Form onSubmit={handleOnSubmit} 
+                <Form 
+                // onSubmit={handleOnSubmit} 
                 autoResetOnDefaultChange={true}
                    defaultValues={async()=> defaultValues}
                 >
-                <div className="info-save-btn">
-                    <div className="personal-info">
-                        <h1>Details</h1>
-                        <h4>Updates your personal info here.</h4>
-                    </div>
-                    <div className="btn-wrapper">
-                        {/* <div>
-                            <Button type="button"
-                            text={'Cancel'}/>
-                        </div> */}
-                        <div className="submit-btn-wrapper">
-                            <Button type="submit"
-                            iconLeft={<MdOutlineFileUpload color="#ffffff" size={20}/>}
-                            isLoading={isLoading}
-                            text={'Save'}/>
-                        </div>
-                    </div>
-                </div>
+                <MyProfileFormTracker/>
                 <div className="name-input-main-holder">
                     <div className="box --ishide">
                         <h4>Name</h4>
