@@ -5,6 +5,7 @@ import Login from '../pages/login';
 import SignUp from '../pages/signup';
 const Listing = lazy(()=>import('../pages/property_listings'))
 const PropertyDetails = lazy(()=>import('../pages/property_details_page'))
+const Policy = lazy(()=>import('../pages/policy'));
 
 export const visitorRoutes = {
     path: '/',
@@ -16,5 +17,6 @@ export const visitorRoutes = {
       { path: '/signup', element: <SignUp /> },
       { path: '/listing', element: <Listing /> },
       { path: '/property/:id', element: <PropertyDetails/>},
+      { path: '/privacy-policy', element: <Policy /> },
     ]
   };

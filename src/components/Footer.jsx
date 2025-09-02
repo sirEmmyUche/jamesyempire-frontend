@@ -35,6 +35,9 @@ function Footer() {
                         <li>
                           <Link>Support</Link>
                         </li>
+                        <li>
+                          <Link to="/privacy-policy">Policy</Link>
+                        </li>
                     </ul>
                 </div>
             </div>

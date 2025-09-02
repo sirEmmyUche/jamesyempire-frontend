@@ -140,6 +140,80 @@ textarea{
 
 /* components styling begins here */
 
+/* privacy-policy */
+.policy-page{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  .policy-header{
+    width: 100%;
+    background: var(--sec--shades-of-purple);
+    height: 30vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    h1{
+      text-align: center;
+      font-size: var(--title);
+      font-weight: 600;
+      opacity: 0.6;
+    }
+    p{
+      text-align: center;
+      font-size: var(--default-font-size);
+      opacity: 0.6;
+    }
+  }
+  .information-we-collect,
+  .how-we-use,
+  .confidentiality,
+  .security,
+  .standards,
+  .your-rights,
+  .retention,
+  .third-parties,
+  .updates,
+  .contact {
+    margin: 1rem 0;
+    padding: 1rem;
+    h2{
+      font-size: var(--subtitle);
+      font-weight:600;
+      opacity: 0.5;
+    }
+    ul{
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      li{
+        opacity: 0.5;
+        span{
+          opacity: 0.5;
+          font-weight: 600;
+          text-decoration: underline;
+        }
+      }
+    }
+    p{
+        opacity: 0.5;
+    }
+  }
+}
+
+/* page not found */
+.not-found-page{
+  text-align: center;
+  padding: 2rem;
+  h1 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+  p {
+    margin-bottom: 1rem;
+  }
+}
+
 /* Logo Component */
 .main-logo-container{
   border: 1px solid transparent;
