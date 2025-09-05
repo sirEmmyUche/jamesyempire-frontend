@@ -140,6 +140,115 @@ textarea{
 
 /* components styling begins here */
 
+/* ads-inquiry-form */
+.ads-inquiry-form{
+  border: 1px solid transparent;
+  width: 100%;
+   display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  background: var(--shades-of-purple);
+  .form-header{
+   border: 1px solid transparent;
+   width: 80%;
+   display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    h1{
+      font-size: var(--title);
+      font-weight: 600;
+      opacity: 0.5;
+      text-align: center;
+    }
+    p{
+      font-size: var(--default-font-size);
+      opacity: 0.4;
+      text-align: center;
+      margin: 1rem 0;
+    }
+    @media screen and (max-width:768px){
+        width: 100%;
+        h1{
+          font-size:var(--subtitle);
+        }
+        p{
+          font-size: 1rem;
+        }
+    }
+
+  }
+  .form-holder{
+    width:80%;
+    /* background: var(--main-color--white); */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    form{
+      .input-wrapper{
+        border: 1px solid transparent;
+        margin: 1rem 0;
+        padding: 1rem;
+        border-radius: 7px;
+        width: 100%;
+        background:var(--main-color--white);
+        textarea{
+          outline: none;
+          border: 1px solid var(--shades-of-purple);
+          height: 25vh;
+          padding: 1rem;
+        }
+        textarea:focus{
+          outline: none;
+          border:1px solid var(--main-color-purple); 
+          transition: all 0.3s ease-in-out;
+        }
+        input{
+          /* border-bottom: 1px solid var(--main-color--black); */
+          border-bottom: 1px solid var(--shades-of-purple);
+        }
+        input:focus{
+          border-bottom: 2px solid var(--main-color-purple);
+          transition: all 0.3s ease-in-out;
+        }
+        /* //style phone input here */
+        .react-tel-input {
+          width: 100%;
+          border: 1px solid transparent;
+        }
+        .phone-input-class{
+          outline: none;
+          border:none;
+          border-bottom: 1px solid var(--shades-of-purple);
+           width: 100%;
+        }
+      }
+      .btn-wrapper{
+        width: 100%;
+        margin: 1rem 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;  
+        button{
+          background: var(--primary-btn-color);
+          color: var(--main-color--white);
+          font-weight: 500;
+          width: 50%;
+          padding: 0.5rem 0;
+          @media screen and (max-width:469px){
+            width: 100%;
+          }
+        }
+      }
+    }
+     @media screen and (max-width:768px){
+      width: 100%;
+     }
+  }
+}
+
 /* privacy-policy */
 .policy-page{
   width: 100%;
