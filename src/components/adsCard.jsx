@@ -22,7 +22,7 @@ const AdsCard = ({name,location,message,phone,email,ads_response_id}) => {
           console.log('mutation property form error:', error);
         },
         onSuccess: (data) => {
-          console.log('mutation success data:', data);
+          //console.log('mutation success data:', data);
           if (data.success) {
             showToast(data.message, 'success');
           } else {
