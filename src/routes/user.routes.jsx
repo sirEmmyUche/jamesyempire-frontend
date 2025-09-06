@@ -7,6 +7,7 @@ import ChangePassword from '../components/change_password';
 const MyPropertiesPage  = lazy(()=>import('../pages/my_properties'))
 const ChatListPage = lazy(()=>import('../pages/chat_list'))
 const Settings = lazy(()=>import('../pages/settings_page'))
+const AdsResponsePage = lazy(()=>import('../pages/ads_response'))
 
 
 export const userRoutes = {
@@ -20,6 +21,7 @@ export const userRoutes = {
       { index: true, element:<MyPropertiesPage/>},
       { path:'/dashboard/upload', element: <UploadProperty/> },
       { path: '/dashboard/chat-list', element: <ChatListPage/>},
+      { path: '/dashboard/ad-response', element: <AdsResponsePage/>},
       { 
         path: '/dashboard/settings', 
         element: <Settings/>,

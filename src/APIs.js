@@ -31,6 +31,48 @@ export const logIn = async (formData)=>{
         return result;
 }
 
+export const adResponse = async (formData)=>{
+        const data = await fetch(`${baseUrl}/v1/ad-response`,{
+                method:'post',
+                headers: {
+                        'Content-Type': 'application/json',
+                    },
+                body: JSON.stringify(formData),
+                // credentials: 'include',
+        });
+        const result = await data.json();
+        // console.log('logIn', result);
+        return result;
+}
+
+export const deleteAdsResponseById = async (id,token)=>{
+    const res = await fetch(`${baseUrl}/v1/ads-response/${id}`,{
+        method:'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`,
+        },
+        credentials:'include',
+    })
+    const data = await res.json();
+    return data
+}
+
+
+export const getAllPropertyAdsResponse = async ({token,page})=>{
+    const res = await fetch(`${baseUrl}/v1/all-ads-response/?page=${page}`,{
+        method:'get',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`,
+        },
+        credentials:'include',
+    })
+    const data = await res.json();
+    return data
+}
+
+
 export const changePassword = async (token,formData)=>{
         const data = await fetch(`${baseUrl}/v1/account/change-password`,{
                 method:'post',
@@ -59,8 +101,6 @@ export const updateAccount = async (token,formData)=>{
         // console.log('logIn', result);
         return result;
 }
-
-
 
 export const getMyProperty = async ({ token, id, page }) => {
   const res = await fetch(

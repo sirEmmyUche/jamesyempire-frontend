@@ -1,99 +1,149 @@
-import { useQuery, keepPreviousData } from "@tanstack/react-query";
-import { useState } from "react";
+import { useQuery, useInfiniteQuery, keepPreviousData } from "@tanstack/react-query";
+import { useState, useRef, useEffect } from "react";
 import Button from "./Button";
-import UseCardSkeleton from './use_card_skeleton'
 import { showToast } from "../utils/toast";
-import Card from './card'
 
-//This components renders card together with pagination
-// Always pass the unique key to avoid unnecessary behaviour
-const RenderResourceData = ({resourceAPIFn,
-     mode='property', uniqueKey='properties',params={}})=>{
-    const [page, setPage] = useState(0);
-    const {data, error, isFetching, isPlaceholderData, isLoading } = useQuery({
-        queryKey: [uniqueKey,page, params],
-        queryFn: async () => resourceAPIFn({page, ...params}),
-        placeholderData: keepPreviousData,
-    });
-     if(isLoading){
-        return <UseCardSkeleton/>
-    }
+const RenderResourceData = ({
+  resourceAPIFn,
+  uniqueKey,
+  params = {},
+  dataKey,
+  SkeletonComponent,
+  RenderItem,
+  getKey = (item) => item.id,
+  mode = "pagination", // "pagination" | "infinite"
+}) => {
+  const [page, setPage] = useState(0);
+  const loaderRef = useRef(null);
 
-    if(error){
-        console.error('render resource query error:',error)
-        showToast('Something went wrong','error')
-    }
-    if(data && !data?.success){
-        // console.log('render resource query data:',data)
-        showToast(data?.error?.message,'info')
-    }
+  // ----- PAGINATION MODE -----
+  const paginationQuery = useQuery({
+    queryKey: [uniqueKey, page, params],
+    queryFn: async () => resourceAPIFn({ page, ...params }),
+    placeholderData: keepPreviousData,
+    enabled: mode === "pagination",
+  });
 
-    // console.log('property-data',data)
+  // ----- INFINITE MODE -----
+  const infiniteQuery = useInfiniteQuery({
+    queryKey: [uniqueKey, params],
+    queryFn: async ({ pageParam = 0 }) => resourceAPIFn({ page: pageParam, ...params }),
+    getNextPageParam: (lastPage, allPages) =>
+      lastPage?.hasMore ? allPages.length : undefined,
+    enabled: mode === "infinite",
+  });
 
-    const hasProperty = data?.success && data?.properties?.length > 0;
-    const handlePrevPage = ()=>{
-        setPage((old) => Math.max(old - 1, 0))
-    }
-    const handleNextPage = ()=>{
-        if (!isPlaceholderData && data?.hasMore) {
-            setPage((old) => old + 1);
-        }
-    }
-    return(<section className="render-resources">
-        <div className="card-holder">
-                    {data?.properties?.map((item) => (
-                    <Card key={item.property_id} title={item.title} 
-                    image={item.image.secure_url}
-                    country={item.country}
-                    property_id={item.property_id} 
-                    address = {item.address}
-                    status={item.status}
-                    description={item.description}
-                    price={item.price}
-                    state={item.state}
-                    availableFor={item.available_for} 
-                    make={item.property_features?.make}
-                    model={item.property_features?.model}
-                    category={item.category}
-                    bedroom={item.property_features?.bathroom}
-                    bathroom={item.property_features?.bedroom}
-                    capacity={item.property_features.capacity}
-                    cabin={item.property_features.cabin}
-                    vessel={item.property_features.vessel}
-                    year={item.property_features.year}
-                    square={item.property_features.square}
-                    />
-                ))}
-                </div>
+  const query = mode === "pagination" ? paginationQuery : infiniteQuery;
+  const { data, error, isFetching, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage } =
+    query;
 
-        {hasProperty  && (
-                <div className="pagination-holder">
-                    <div className="btn-holder">
-                        <div className="btn-box">
-                            <Button
-                            type="button"
-                            onClick={handlePrevPage}
-                            disabled={page === 0}
-                            >
-                            Previous
-                            </Button>
-                        </div>
-                         <div className="page">
-                            <p>{page + 1}</p>
-                        </div>
-                         <div className="btn-box">
-                            <Button
-                                onClick={handleNextPage}
-                                disabled={isPlaceholderData || !data?.hasMore}>
-                            Next
-                            </Button>
-                         </div>
-                        
-                    </div>
-                    <div className="fetch-pg">{isFetching ? <span> Loading...</span> : null}{' '}</div>
-                </div>
-            )}
-    </section>)
-}
+  // ----- Infinite Scroll Observer -----
+  useEffect(() => {
+  if (mode !== "infinite" || !hasNextPage || isLoading) return;
+
+  let timeoutId;
+  const observer = new IntersectionObserver(
+    (entries) => {
+      if (entries[0].isIntersecting) {
+        // console.log("Observer triggered, fetching next page");
+        fetchNextPage();
+      }
+    },
+    { threshold: 0.1 }
+  );
+
+  if (loaderRef.current) {
+    observer.observe(loaderRef.current);
+    const rect = loaderRef.current.getBoundingClientRect();
+    const isVisible = rect.top >= 0 && rect.top <= window.innerHeight;
+    if (isVisible && hasNextPage && !isFetchingNextPage) {
+    //   console.log("Loader is already visible, fetching next page");
+      timeoutId = setTimeout(() => fetchNextPage(), 100); // Debounce by 100ms
+    }
+  }
+
+  return () => {
+    if (loaderRef.current) observer.unobserve(loaderRef.current);
+    if (timeoutId) clearTimeout(timeoutId);
+  };
+}, [mode, fetchNextPage, hasNextPage, isLoading, isFetchingNextPage]);
+
+
+  // Handle loading state
+  if (isLoading) return <SkeletonComponent />;
+
+  // Handle error state
+  if (error) {
+    console.error("render resource query error:", error);
+    showToast("Unable to get resources, please try again later.", "error");
+  }
+
+  // Handle API error response
+  if (data && !data?.success) {
+    if(data?.error?.message)showToast(data?.error?.message, "info");
+    showToast(data.message, 'info');
+    
+  }
+
+  const itemsRaw =
+    mode === "pagination"
+      ? data?.[dataKey] || []
+      : data?.pages?.flatMap((page) => page?.[dataKey] || []) || [];
+
+      const items = [...new Map(itemsRaw.map((item) => [item.ads_response_id, item])).values()];
+
+    //   console.log("Items:", items);     
+    //   console.log("Unique IDs:", [...new Set(items.map((item) => item.ads_response_id))]);
+
+  const hasData = items.length > 0;
+  //console.log(data)
+
+  return (
+    <section className="render-resources">
+      <div className="card-holder">
+        {items.map((item) => (
+          <RenderItem key={getKey(item)} {...item} />
+        ))}
+      </div>
+
+      {mode === "pagination" && hasData && (
+        <div className="pagination-holder">
+          <div className="btn-holder">
+            <div className="btn-box">
+              <Button
+                type="button"
+                onClick={() => setPage((old) => Math.max(old - 1, 0))}
+                disabled={page === 0}
+              >
+                Previous
+              </Button>
+            </div>
+            <div className="page">
+              <p>{page + 1}</p>
+            </div>
+            <div className="btn-box">
+              <Button
+                onClick={() => setPage((old) => old + 1)}
+                disabled={!data?.hasMore}
+              >
+                Next
+              </Button>
+            </div>
+          </div>
+          <div className="fetch-pg">
+            {isFetching ? <span>Loading...</span> : null}
+          </div>
+        </div>
+      )}
+
+      {mode === "infinite" && (
+        <div ref={loaderRef} className="infinite-loader">
+          {isFetchingNextPage ? <span>Loading more...</span> : null}
+          {!hasNextPage && hasData && <span>----No more results----</span>}
+        </div>
+      )}
+    </section>
+  );
+};
 
 export default RenderResourceData;

@@ -5,12 +5,14 @@ import TextArea from "./text_area_field";
 import PhoneInputField from "./phone_inputs";
 import { showToast } from "../utils/toast";
 import {useMutation,} from '@tanstack/react-query'
+import { adResponse } from "../APIs";
 const AdsInquiryForm = () => {
     const mutation = useMutation({
-            mutationFn: async (formData)=> console.log(formData),
+            mutationFn: async (formData)=> adResponse(formData),
             onSuccess:(data)=>{
                 //  console.log('data from login:',data)
                 if(data && !data.success){
+                    console.log(data)
                     if(data?.error?.details?.fields){
                         let errorMessage = data?.error?.details?.fields?.map((field)=>field.message)
                         errorMessage.forEach((message)=>showToast(message,'error'))

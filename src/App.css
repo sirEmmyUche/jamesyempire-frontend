@@ -139,6 +139,74 @@ textarea{
 
 
 /* components styling begins here */
+/* ads-card */
+.ads-card {
+  width: 100%;
+  border: 1px solid transparent;
+  /* padding: 1rem; */
+  background: var(--shades-of-purple);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  .ads-card-content {
+    position: relative;
+    padding: 1rem;
+    margin: 1rem 0;
+    background: var(--main-color--white);
+    width: 80%;
+    border-radius: 20px;
+    .ads-card-delete{
+      border: 1px solid transparent;
+      /* padding: 3px; */
+      width: 35px;
+      height: 35px;
+      position: absolute;
+      cursor: pointer;
+      top: 10%;
+      right: 3%;
+      opacity: 0.5;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    h2{
+      font-size: var(--default-font-size);
+      font-weight: 600;
+      margin: 0;
+      opacity: 0.5;
+    }
+    p{
+      font-size: var(--default-font-size);
+      opacity: 0.4;
+      margin: 0.3rem 0;
+      font-weight: 400;
+    }
+    @media screen and (max-width:469px){
+     width: 100%;
+   }
+  }
+}
+
+/* ads-skeleton loader */
+.ads-skeleton {
+  width: 100%;
+border: 1px solid transparent;
+display: flex;
+flex-direction: column;
+align-items: center;
+background: var(--shades-of-purple);
+.box{
+  width: 80%;
+  background: var(--main-color--white);
+  border: 1px solid transparent;
+  border-radius: 25px;
+  padding: 1rem;
+  margin: 1rem 0;
+   @media screen and (max-width:469px){
+     width: 100%;
+   }
+}
+}
 
 /* ads-inquiry-form */
 .ads-inquiry-form{
@@ -888,6 +956,18 @@ textarea{
     margin-top: 5px;
     span{
       opacity: 0.2;
+    }
+  }
+  .infinite-loader{
+    border: 1px solid transparent;
+    width: 100%;
+    margin: 1rem 0s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    span{
+      opacity: 0.5;
+      font-weight: 500;
     }
   }
 

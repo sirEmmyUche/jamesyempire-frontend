@@ -7,6 +7,7 @@ import { IoMdChatbubbles } from "react-icons/io";
 import { MdRealEstateAgent} from "react-icons/md";
 import { IoMdSettings } from "react-icons/io";
 import { IoMdLogOut } from 'react-icons/io';
+import { FaAdversal } from "react-icons/fa";
 import ProfilePic from './profile_pic';
 import { user } from '../store/user';
 import UseModal from "./useModal"
@@ -95,6 +96,14 @@ const SideNav =({isCollapsed})=>{
                         <IoMdSettings color="#ffffff" size={iconSize}/>
                     </span>
                     {!isCollapsed && <p>Settings</p>}
+                </Link>
+            </li>
+             <li>
+                <Link to={'/dashboard/ad-response'}>
+                    <span className={`${isCollapsed?'expand':''}`}>
+                        <FaAdversal color="#ffffff" size={iconSize}/>
+                    </span>
+                    {!isCollapsed && <p>Ads</p>}
                 </Link>
             </li>
             <li onClick={openModal} className='log-out'>

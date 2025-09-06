@@ -9,6 +9,7 @@ import { searchProperty } from "../APIs";
 import RenderResourceData from "../components/render_resources_data";
 
 
+
 function Listing (){
     const [searchParams, setSearchParams] = useState({});
 
@@ -19,7 +20,6 @@ function Listing (){
         }
     setSearchParams(data) // passed from Search component
   }
-
     return(<section id="listing">
         <div className="child-1">
             <div className="subchild-1">
@@ -31,12 +31,24 @@ function Listing (){
             </div>
         </div>
         <div className="child-2">
+            <RenderResourceData
+          resourceAPIFn={searchProperty}
+          uniqueKey="properties"
+          dataKey="properties"
+          SkeletonComponent={UseCardSkeleton}
+          RenderItem={(props) => <Card {...props} />}
+          getKey={(item) => item.property_id}
+          mode="pagination"
+          params={searchParams}
+        />
+        </div>
+        {/* <div className="child-2">
             <RenderResourceData 
             mode="property" 
             uniqueKey="properties" 
              params={searchParams}
             resourceAPIFn={searchProperty}/>
-        </div>
+        </div> */}
     </section>)
 }
 

@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@tanstack/react-query": "^5.74.3",
+    "he": "^1.2.0",
     "libphonenumber-js": "^1.12.10",
     "motion": "^12.9.7",
     "react": "^19.0.0",

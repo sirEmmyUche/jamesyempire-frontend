@@ -14,7 +14,7 @@ import { GiSteeringWheel } from "react-icons/gi";
 import { MdCabin } from "react-icons/md";
 
 const Card = ({title,image,country,state,status,price, showAlldetails = false,
-  availableFor, make, model, category,property_id,
+  available_for, make, model, category,property_id,
    bedroom=1, bathroom=1,address,description,capacity,cabin,vessel,year, square
 }) => {
 
@@ -95,11 +95,11 @@ const Card = ({title,image,country,state,status,price, showAlldetails = false,
       <div className="card-first-child">
         <div className="card-img-holder">
           <Link to={`/property/${property_id}`} state={{image}} >
-              <img src={image} alt={title}/>
+              <img src={image.secure_url} alt={title}/>
           </Link>
         </div>
         <h4 className="ribbon-1">{category}</h4>
-        <h4 className="ribbon-2">{availableFor}</h4>
+        <h4 className="ribbon-2">{available_for}</h4>
       </div>
       <div className="card-second-child">
         <h1>
