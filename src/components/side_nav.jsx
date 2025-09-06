@@ -19,6 +19,7 @@ const SideNav =({isCollapsed})=>{
     const toggleMenubar = ()=> setMenubar(!menubar);
     const isUser = user((state)=>state.user);
     const firstname = isUser?.firstname;
+    const role = isUser?.role;
     const [isOpen, setIsOpen] = useState(false);
     const iconSize = 20
 
@@ -98,21 +99,23 @@ const SideNav =({isCollapsed})=>{
                     {!isCollapsed && <p>Settings</p>}
                 </Link>
             </li>
-             <li>
-                <Link to={'/dashboard/ad-response'}>
-                    <span className={`${isCollapsed?'expand':''}`}>
-                        <FaAdversal color="#ffffff" size={iconSize}/>
-                    </span>
-                    {!isCollapsed && <p>Ads</p>}
-                </Link>
-            </li>
+             {
+                role === 'admin' && (
+                    <li>
+                        <Link to={'/dashboard/ad-response'}>
+                            <span className={`${isCollapsed?'expand':''}`}>
+                                <FaAdversal color="#ffffff" size={iconSize}/>
+                            </span>
+                            {!isCollapsed && <p>Ads</p>}
+                        </Link>
+                    </li>
+                )
+             }
             <li onClick={openModal} className='log-out'>
-                {/* <Link to={'/dashboard/settings'}> */}
                     <span className={`${isCollapsed?'expand':''}`}>
                         <IoMdLogOut color="#ffffff" size={iconSize}/>
                     </span>
                     {!isCollapsed && <p>Log out</p>}
-                {/* </Link> */}
             </li>
         </ul>
         <UseModal isOpen={isOpen} onRequestClose={closeModal}>
