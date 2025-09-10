@@ -46,7 +46,7 @@ const HomePagePropertyListingSample = ()=>{
                     description={item.description}
                     price={item.price}
                     state={item.state}
-                    availableFor={item.available_for} 
+                    available_for={item.available_for} 
                     category={item.category}
                     make={item.property_features?.make}
                     model={item.property_features?.model}

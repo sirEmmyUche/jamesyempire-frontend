@@ -164,8 +164,8 @@ const PropertyForm = ({ mode = 'create', propertyData = {},}) => {
               validationRules={mode === 'create' ? { 
                 required: 'Title is required' ,
                 pattern: {
-                    value: /^.{0,100}$/,
-                    message: 'title cannot exceed 50 characters',
+                    value: /^.{0,150}$/,
+                    message: 'title cannot exceed 150 characters',
                   },
               } 
                 : {}}
@@ -176,7 +176,14 @@ const PropertyForm = ({ mode = 'create', propertyData = {},}) => {
               type="text"
               label="Address"
               name="address"
-              validationRules={mode === 'create' ? { required: 'Address is required' } : {}}
+              validationRules={mode === 'create' ? { 
+                required: 'Address is required' ,
+                pattern: {
+                    value: /^.{0,250}$/,
+                    message: 'Address cannot exceed 250 characters',
+                  },
+              } 
+                : {}}
             />
           </div>
         </div>
@@ -251,8 +258,8 @@ const PropertyForm = ({ mode = 'create', propertyData = {},}) => {
                 ? {
                     required: 'Description is required',
                     pattern: {
-                      value: /^.{0,300}$/,
-                      message: 'Description cannot exceed 150 characters',
+                      value: /^.{0,1000}$/,
+                      message: 'Description cannot exceed 1000 characters',
                     },
                   }
                 : {}

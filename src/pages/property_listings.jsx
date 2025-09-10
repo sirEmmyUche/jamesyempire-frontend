@@ -14,7 +14,7 @@ function Listing (){
     const [searchParams, setSearchParams] = useState({});
 
     const handleSearchSubmit = (data) => {
-          console.log("Submitted data:", data);
+        //   console.log("Submitted data:", data);
         if(data && data?.available_for == 'all'){
              setSearchParams({}) 
         }
@@ -31,7 +31,7 @@ function Listing (){
             </div>
         </div>
         <div className="child-2">
-            <RenderResourceData
+        <RenderResourceData
           resourceAPIFn={searchProperty}
           uniqueKey="properties"
           dataKey="properties"

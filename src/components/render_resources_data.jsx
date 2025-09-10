@@ -13,7 +13,7 @@ const RenderResourceData = ({
   getKey = (item) => item.id,
   mode = "pagination", // "pagination" | "infinite"
 }) => {
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(1);
   const loaderRef = useRef(null);
 
   // ----- PAGINATION MODE -----
@@ -79,24 +79,37 @@ const RenderResourceData = ({
   }
 
   // Handle API error response
-  if (data && !data?.success) {
-    if(data?.error?.message)showToast(data?.error?.message, "info");
-    showToast(data.message, 'info');
-    
-  }
+  // Handle API error response
+if (mode === "pagination" && data && !data.success) {
+  console.log("Pagination API error response:", data);
+  const errorMessage = data.message || data.error?.message;
+  showToast(errorMessage || "Something went wrong", "info");
+}
+
+if (mode === "infinite" && data?.pages?.[0] && !data.pages[0].success) {
+  const errorMessage = data.pages[0].message || data.pages[0].error?.message;
+  console.log("Infinite API error response:", data.pages[0]);
+  showToast(errorMessage || "Something went wrong", "info");
+}
 
   const itemsRaw =
-    mode === "pagination"
-      ? data?.[dataKey] || []
-      : data?.pages?.flatMap((page) => page?.[dataKey] || []) || [];
+  mode === "pagination"
+    ? Array.isArray(data?.[dataKey])
+      ? data?.[dataKey]
+      : data?.[dataKey]
+      ? [data?.[dataKey]]
+      : []
+    : data?.pages?.flatMap((page) => page?.[dataKey] || []) || [];
 
-      const items = [...new Map(itemsRaw.map((item) => [item.ads_response_id, item])).values()];
+    const items = mode === "infinite" ? [
+        ...new Map(
+          itemsRaw.map((item) => [getKey(item), item])
+        ).values(),
+      ]
+    : itemsRaw;
 
-    //   console.log("Items:", items);     
-    //   console.log("Unique IDs:", [...new Set(items.map((item) => item.ads_response_id))]);
+const hasData = items.length > 0;
 
-  const hasData = items.length > 0;
-  //console.log(data)
 
   return (
     <section className="render-resources">
@@ -112,14 +125,14 @@ const RenderResourceData = ({
             <div className="btn-box">
               <Button
                 type="button"
-                onClick={() => setPage((old) => Math.max(old - 1, 0))}
-                disabled={page === 0}
+                onClick={() => setPage((old) => Math.max(old - 1, 1))}
+                disabled={page === 1}
               >
                 Previous
               </Button>
             </div>
             <div className="page">
-              <p>{page + 1}</p>
+              <p>{page}</p>
             </div>
             <div className="btn-box">
               <Button
