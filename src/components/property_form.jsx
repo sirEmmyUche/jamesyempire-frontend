@@ -259,8 +259,8 @@ const PropertyForm = ({ mode = 'create', propertyData = {},}) => {
                 ? {
                     required: 'Description is required',
                     pattern: {
-                      value: /^.{0,1000}$/,
-                      message: 'Description cannot exceed 1000 characters',
+                      value: /^.{0,5000}$/,
+                      message: 'Description cannot exceed 5000 characters',
                     },
                   }
                 : {}
