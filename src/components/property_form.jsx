@@ -13,6 +13,7 @@ import {useMutation,} from '@tanstack/react-query'
 import { uploadProperty,updateProperty,deleteImageFromPropertyImage} from '../APIs'
 import { showToast } from '../utils/toast'
 import {user} from '../store/user'
+import he from 'he'
 // import { useForm } from 'react-hook-form';
 
 const PropertyForm = ({ mode = 'create', propertyData = {},}) => {
@@ -57,15 +58,15 @@ const PropertyForm = ({ mode = 'create', propertyData = {},}) => {
     () =>
       mode === 'edit'
         ? {
-            title: propertyData.title || '',
-            address: propertyData.address || '',
-            country: propertyData.country || '',
-            state: propertyData.state || '',
+            title: he.decode(propertyData.title) || '',
+            address: he.decode(propertyData.address) || '',
+            country: he.decode(propertyData.country) || '',
+            state: he.decode(propertyData.state) || '',
             price: propertyData.price || '',
             status: propertyData.status || '',
             available_for: propertyData.available_for || '',
             category: propertyData.category || '',
-            description: propertyData.description || '',
+            description: he.decode(propertyData.description) || '',
             image: initialImages.map((url, index) => ({
               preview: url.secure_url,
               isServerImage: true,

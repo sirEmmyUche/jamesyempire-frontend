@@ -19,6 +19,7 @@ import { TbMeterSquare } from "react-icons/tb";
 import { CiCalendarDate } from "react-icons/ci";
 import { GiSteeringWheel } from "react-icons/gi";
 // import {useQuery,keepPreviousData} from '@tanstack/react-query'
+import he from 'he'
 
 const DetailsOfProperty = ({data,isLoading})=>{
     // console.log(data)
@@ -131,11 +132,11 @@ const DetailsOfProperty = ({data,isLoading})=>{
     return(<div className='property-content'>
         <h1 className='property-content-child-1 title'>About</h1>
         <p className='property-content-child-2 default-font-size'>
-            {isLoading? <Skeleton count={3}/>: data?.description}
+            {isLoading? <Skeleton count={3}/>: he.decode(data?.description)}
         </p>
         <h1 className='property-content-child-1 subtitle'>Address</h1>
         <p className='property-content-child-2 default-font-size'>
-            {isLoading? <Skeleton count={3}/>: data?.address}
+            {isLoading? <Skeleton count={3}/>: he.decode(data?.address)}
         </p>
         <div className='property-content-child-3'>
             <div className='property-content-child-3-subchild'>
